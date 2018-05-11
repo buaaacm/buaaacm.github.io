@@ -183,11 +183,14 @@ $(document).ready(function () {
         if (p === 'end') continue;
         contest_list.push(p);
     }
-    for (var i in contest_list.sort()) {
-        var p = contest_list[i];
-        var link = '<a class="list-group-item" onclick="parse(' + "'" + p + "'" + ')" href=#' + p + '>' + data[p].date.substring(5) + '</a>';
+    for (var p of contest_list.sort()) {
+        var link = '<a class="list-group-item" data-toggle="tooltip" data-placement="right" title="' + 
+                   data[p].title + '" onclick="parse(' + "'" + p + "'" + ')" href=#' + p + '>' + 
+                   data[p].date.substring(5) + '</a>';
         $('#contest_list').append(link);
     }
+    $('[data-toggle="tooltip"]').tooltip();
+    
     var arg_list = window.location.href.split('#');
     key = arg_list.length < 2 ? '01' : arg_list[1];
     parse(key);
