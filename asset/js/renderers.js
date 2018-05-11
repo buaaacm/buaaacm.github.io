@@ -168,8 +168,8 @@ function drawChart() {
         vAxis: {
             title: 'Rank',
         },
-        width: Math.max(800, window.innerWidth * 0.85),
-        height: Math.max(800, window.innerWidth * 0.85) / 16 * 10,
+        //width: 1140,//Math.max(800, window.innerWidth * 0.85),
+        height: 720,
     };
 
     var chart = new google.visualization.LineChart(document.getElementById('chart'));
