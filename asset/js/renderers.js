@@ -179,7 +179,6 @@ function getEChartOption(contest) {
                     yAxisIndex: 'none'
                 },
                 restore: {},
-                saveAsImage: {}
             }
         },
         tooltip: {
@@ -202,11 +201,20 @@ function getEChartOption(contest) {
             nameLocation: 'middle',
             type: 'value',
             inverse: true,
+            min: 0,
+            max: 15,
         },
     };
     var ranklist = contest.ranklist;
     var problem_num = contest.num;
-    var pass_time = [0, contest.time || 300];
+    if (!contest.time) {
+        contest.time = 300;
+    }
+    var pass_time = [0, contest.time];
+
+    if (contest.time > 120) {
+        pass_time.push(contest.time - 60);
+    }
 
     option.legend = {
         orient: 'vertical',
