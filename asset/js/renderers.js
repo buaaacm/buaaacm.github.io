@@ -1,7 +1,5 @@
 google.charts.load('current', {packages: ['corechart', 'line']});
 
-var key = '';
-
 function formatter(hour, minute) {
     var str = '';
     if (hour < 10) {
@@ -42,8 +40,7 @@ function parse_detail(detail, first_blood) {
     return html;
 }
 
-function parse_board() {
-    var contest = data[key];
+function parse_board(contest) {
     $('#title').text(contest.title);
     $('#date').text(contest.date);
     $('#board').empty();
@@ -95,8 +92,7 @@ function parse_board() {
     }
 }
 
-function drawChart() {
-    var contest = data[key];
+function drawChart(contest) {
     var ranklist = contest.ranklist;
     var problem_num = contest.num;
     var chart_data = new google.visualization.DataTable();
@@ -178,26 +174,31 @@ function drawChart() {
 
 $(document).ready(function () {
     $('#contest_list').empty();
+    let data = training["2017"];
     contest_list = [];
     for (var p in data) {
-        if (p === 'end') continue;
         contest_list.push(p);
     }
     for (var p of contest_list.sort()) {
         var link = '<a class="list-group-item" data-toggle="tooltip" data-placement="right" title="' + 
-                   data[p].title + '" onclick="parse(' + "'" + p + "'" + ')" href=#' + p + '>' + 
+                   data[p].title + '" onclick="selectTraining(' + "'" + p + "'" + ')" href=#' + p + '>' + 
                    data[p].date.substring(5) + '</a>';
         $('#contest_list').append(link);
     }
     $('[data-toggle="tooltip"]').tooltip();
     
     var arg_list = window.location.href.split('#');
-    key = arg_list.length < 2 ? '01' : arg_list[1];
-    parse(key);
+    var key = arg_list.length < 2 ? '01' : arg_list[1];
+    console.log(key);
+    parse(data[key]);
 });
 
-function parse(str) {
-    key = str;
-    parse_board();
-    google.charts.setOnLoadCallback(drawChart);
+function selectTraining(key) {
+    let data = training["2017"];
+    parse(data[key]);
+}
+
+function parse(contest) {
+    parse_board(contest);
+    google.charts.setOnLoadCallback(drawChart.bind(this, contest));
 }
