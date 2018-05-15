@@ -5,7 +5,7 @@ def contest:
     num   : number
     time  : number 
     ranklist : array<string>
-    statuses : array<array>
+    statuses : string -> array<array>
         id : number
         passed time : number, -1 for not passing
         failed submission : number

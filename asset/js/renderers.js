@@ -109,13 +109,10 @@ function drawChart(contest) {
             }
         }
     }
-    pass_time = pass_time.sort(function (a , b) {
+    pass_time = Array.from(new Set(pass_time)).sort(function(a, b) {
         return a - b;
     });
     for (var k = 0 ; k < pass_time.length ; ++ k) {
-        if (k > 0 && pass_time[k] === pass_time[k - 1]) {
-            continue;
-        }
         var row = [pass_time[k]];
         var scores = [];
         for (var i = 0 ; i < ranklist.length ; ++ i) {
@@ -172,6 +169,153 @@ function drawChart(contest) {
     chart.draw(chart_data, options);
 }
 
+function getEChartOption(contest) {
+    let option = {
+        height: 480,
+        toolbox: {
+            show: true,
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        tooltip: {
+            trigger: 'item'
+        },
+        grid: {
+            right: '15%',
+        },
+        xAxis:  {
+            name: 'Time',
+            nameLocation: 'middle',
+            type: 'value',
+            minInterval: 1,
+            interval: 60,
+            min: 0,
+            max: contest.time || 300,
+            
+        },
+        yAxis: {
+            name: 'Rank',
+            nameLocation: 'middle',
+            type: 'value',
+            inverse: true,
+        },
+    };
+    var ranklist = contest.ranklist;
+    var problem_num = contest.num;
+    var pass_time = [0, contest.time || 300];
+
+    option.legend = {
+        orient: 'vertical',
+        right: 10,
+        top: 60,
+        bottom: 60,
+        data: [],
+    };
+    for (var i = 0 ; i < ranklist.length ; ++ i) {
+        option.legend.data.push(ranklist[i]);
+        for (var j = 0 ; j < problem_num ; ++ j) {
+            var t = contest.statuses[ranklist[i]][j][1];
+            if (t >= 0) {
+                pass_time.push(t);
+            }
+        }
+    }
+    pass_time = Array.from(new Set(pass_time)).sort(function(a, b) {
+        return a - b;
+    });
+
+    option.series = [];
+    let points = [];
+    for (var i = 0 ; i < ranklist.length ; ++ i) {
+        let status = {};
+        status.name = ranklist[i];
+        status.type = 'line';
+        status.data = [];
+        status.markPoint = {
+            symbol: 'pin',
+            symbolSize: 25,
+            data: [],
+        };
+        option.series.push(status);
+        points.push([]);
+    }
+
+    for (var k = 0 ; k < pass_time.length ; ++ k) {
+        var T = pass_time[k];
+        var scores = [];
+        for (var i = 0 ; i < ranklist.length ; ++ i) {
+            var team = ranklist[i], solved = 0, penalty = 0;
+            for (var j = 0 ; j < problem_num ; ++ j) {
+                var t = contest.statuses[team][j][1];
+                if (0 <= t && t <= T) {
+                    ++ solved;
+                    penalty += contest.statuses[team][j][1] + contest.statuses[team][j][2] * 20;
+                }
+            }
+            scores.push([solved, penalty]);
+        }
+
+        for (var i = 0 ; i < ranklist.length ; ++ i) {
+            var team = ranklist[i], rank = 1;
+            for (var j = 0 ; j < ranklist.length ; ++ j) {
+                if (scores[j][0] > scores[i][0]) {
+                    ++ rank;
+                } else if (scores[j][0] === scores[i][0] && scores[j][1] < scores[i][1]) {
+                    ++ rank;
+                }
+            }
+            let pass = false;
+            for (var j = 0 ; j < problem_num ; ++ j) {
+                var t = contest.statuses[team][j][1];
+                if (t === pass_time[k]) {
+                    option.series[i].markPoint.data.push({
+                        name: String.fromCharCode('A'.charCodeAt(0) + j) + ' passed',
+                        value: String.fromCharCode('A'.charCodeAt(0) + j),
+                        coord: [T, rank],
+                    });
+                    pass = true;
+                }
+            }
+            points[i].push([T, rank, pass]);
+        }
+    }
+    for (var i = 0 ; i < ranklist.length ; ++ i) {
+        for (var k = 1 ; k + 1 < points[i].length ; ++ k) {
+            if (!points[i][k][2] && points[i][k][1] == points[i][k - 1][1] &&
+                                    points[i][k][1] == points[i][k + 1][1]) {
+                points[i][k][0] = -1;
+            }
+        }
+        for (var k = 0 ; k < points[i].length ; ++ k) {
+            if (points[i][k][0] >= 0) {
+                option.series[i].data.push({
+                    value: [points[i][k][0], points[i][k][1]],
+                });
+            }
+        }
+    }
+    return option;
+}
+
+function selectTraining(key) {
+    let data = training["2017"];
+    parse(data[key]);
+}
+
+function parse(contest) {
+    parse_board(contest);
+    //google.charts.setOnLoadCallback(drawChart.bind(this, contest));
+    var myChart = echarts.init(document.getElementById('chart'));
+    var option = getEChartOption(contest);
+    myChart.setOption(option);
+}
+
+
 $(document).ready(function () {
     $('#contest_list').empty();
     let data = training["2017"];
@@ -192,12 +336,3 @@ $(document).ready(function () {
     parse(data[key]);
 });
 
-function selectTraining(key) {
-    let data = training["2017"];
-    parse(data[key]);
-}
-
-function parse(contest) {
-    parse_board(contest);
-    google.charts.setOnLoadCallback(drawChart.bind(this, contest));
-}
