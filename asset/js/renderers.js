@@ -195,6 +195,14 @@ function getEChartOption(contest) {
             interval: 60,
             min: 0,
             max: contest.time || 300,
+            axisPointer: {
+                label: {
+                    precision: 0,
+                    formatter: function(m) {
+                        return Math.floor(m.value / 60) + ' h ' + (m.value % 60) + ' m';
+                    },
+                }
+            }
         },
         yAxis: {
             name: 'Rank',
