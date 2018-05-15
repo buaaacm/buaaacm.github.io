@@ -183,7 +183,7 @@ function getEChartOption(contest) {
             }
         },
         tooltip: {
-            trigger: 'item'
+            trigger: 'axis'
         },
         grid: {
             right: '15%',
@@ -196,7 +196,6 @@ function getEChartOption(contest) {
             interval: 60,
             min: 0,
             max: contest.time || 300,
-            
         },
         yAxis: {
             name: 'Rank',
@@ -288,12 +287,13 @@ function getEChartOption(contest) {
         for (var k = 1 ; k + 1 < points[i].length ; ++ k) {
             if (!points[i][k][2] && points[i][k][1] == points[i][k - 1][1] &&
                                     points[i][k][1] == points[i][k + 1][1]) {
-                points[i][k][0] = -1;
+                //points[i][k][0] = -1;
             }
         }
         for (var k = 0 ; k < points[i].length ; ++ k) {
             if (points[i][k][0] >= 0) {
                 option.series[i].data.push({
+                    symbol: 'none',
                     value: [points[i][k][0], points[i][k][1]],
                 });
             }
@@ -311,8 +311,8 @@ function parse(contest) {
     parse_board(contest);
     //google.charts.setOnLoadCallback(drawChart.bind(this, contest));
     var myChart = echarts.init(document.getElementById('chart'));
-    var option = getEChartOption(contest);
-    myChart.setOption(option);
+    myChart.clear();
+    myChart.setOption(getEChartOption(contest));
 }
 
 
