@@ -1,3 +1,16 @@
+/*
+def contest:
+    title : string
+    date  : string
+    num   : number
+    time  : number 
+    ranklist : array<string>
+    statuses : array<array>
+        id : number
+        passed time : number, -1 for not passing
+        failed submission : number
+*/
+
 const training = { 
     "2017": {
         "01":
