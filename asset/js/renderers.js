@@ -58,7 +58,7 @@ function parse_board(contest) {
 
     var first_blood = new Array(problem_num);
     for (var i = 0 ; i < problem_num ; ++ i) {
-        first_blood[i] = 1 << 30;
+        first_blood[i] = Number.MAX_VALUE;
     }
     for (var i = 0 ; i < ranklist.length ; ++ i) {
         var team = ranklist[i];
@@ -96,7 +96,7 @@ function drawChart(contest) {
     var ranklist = contest.ranklist;
     var problem_num = contest.num;
     var chart_data = new google.visualization.DataTable();
-    var pass_time = [0, contest.time ? contest.time : 300];
+    var pass_time = [0, contest.time || 300];
 
     chart_data.addColumn('number', 'X');
     for (var i = 0 ; i < ranklist.length ; ++ i) {
@@ -189,7 +189,6 @@ $(document).ready(function () {
     
     var arg_list = window.location.href.split('#');
     var key = arg_list.length < 2 ? '01' : arg_list[1];
-    console.log(key);
     parse(data[key]);
 });
 
