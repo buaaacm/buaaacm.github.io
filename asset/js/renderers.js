@@ -251,6 +251,20 @@ function getEChartOption(contest) {
         option.series.push(status);
         points.push([]);
     }
+    option.series.push({
+        type: 'line',
+        markArea: {
+            itemStyle: {
+               color: 'rgba(237, 237, 237, 0.6)',
+            },
+            data: [[{
+                    name: 'Last hour',
+                    xAxis: contest.time - 60
+                }, {
+                    xAxis: contest.time
+                }]],
+        }
+    });
 
     for (var k = 0 ; k < pass_time.length ; ++ k) {
         var T = pass_time[k];
