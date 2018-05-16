@@ -199,7 +199,18 @@ function getEChartOption(contest) {
                 label: {
                     precision: 0,
                     formatter: function(m) {
-                        return Math.floor(m.value / 60) + ' h ' + (m.value % 60) + ' m';
+                        var time = m.value;
+                        var str = formatter(Math.floor(time / 60), time % 60) + '\n';
+                        for (var i = 0 ; i < ranklist.length ; ++ i) {
+                            var team = ranklist[i];
+                            for (var j = 0 ; j < problem_num ; ++ j) {
+                                var t = contest.statuses[team][j][1];
+                                if (t == time) {
+                                    str += team + ' passed ' + String.fromCharCode('A'.charCodeAt(0) + j) + '; ';
+                                }
+                            }
+                        }
+                        return str;
                     },
                 }
             }
