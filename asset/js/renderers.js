@@ -373,7 +373,7 @@ $(document).ready(function () {
     }
     for (var p of contest_list.sort()) {
         var link = '<a class="list-group-item" data-toggle="tooltip" data-placement="right" title="' + 
-                   data[p].title + '" onclick="selectTraining("' + argmap.year + '", ' + "'" + p + "'" + 
+                   data[p].title + '" onclick="selectTraining(\'' + argmap.year + '\', ' + "'" + p + "'" + 
                    ')" href=#year=' + argmap.year + '&id='+ p + '>' + data[p].date.substring(5) + '</a>';
         $('#contest_list').append(link);
     }
