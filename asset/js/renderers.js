@@ -356,24 +356,35 @@ function parse(contest) {
     myChart.setOption(getEChartOption(contest));
 }
 
+function selectTraining(year ,key) {
+    let data = training[year];
+    parse(data[key]);
+}
 
 $(document).ready(function () {
+    var args = window.location.href.split('?')[1];
+    argmap = {};
+    args.split('&').forEach((test) => {
+        argmap[test.split('=')[0]] = test.split('=')[1];
+    });
+    argmap.year = argmap.year || '2017';
+    
     $('#contest_list').empty();
-    let data = training["2017"];
+    let data = training[argmap.year];
+    
     contest_list = [];
     for (var p in data) {
         contest_list.push(p);
     }
     for (var p of contest_list.sort()) {
         var link = '<a class="list-group-item" data-toggle="tooltip" data-placement="right" title="' + 
-                   data[p].title + '" onclick="selectTraining(' + "'" + p + "'" + ')" href=#' + p + '>' + 
-                   data[p].date.substring(5) + '</a>';
+                   data[p].title + '" onclick="selectTraining("' + argmap.year + '", ' + "'" + p + "'" + 
+                   ')" href=?year=' + argmap.year + '&id='+ p + '>' + data[p].date.substring(5) + '</a>';
         $('#contest_list').append(link);
     }
     $('[data-toggle="tooltip"]').tooltip();
     
-    var arg_list = window.location.href.split('#');
-    var key = arg_list.length < 2 ? '01' : arg_list[1];
+    var key = argmap.id || '01';
     parse(data[key]);
 });
 
