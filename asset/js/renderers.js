@@ -343,11 +343,6 @@ function getEChartOption(contest) {
     return option;
 }
 
-function selectTraining(key) {
-    let data = training["2017"];
-    parse(data[key]);
-}
-
 function parse(contest) {
     parse_board(contest);
     //google.charts.setOnLoadCallback(drawChart.bind(this, contest));
