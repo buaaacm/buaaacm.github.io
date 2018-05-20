@@ -110,7 +110,7 @@ const teams = [
     {cn: "极值点", en: "TooFarTooClose", members: [16, 19, 22]},
     {cn: "tvcr", en: "tvcr", members: [30, 31, 32]},
     {cn: "我们吓成一团了", en: "sto orz", members: [17, 20, 23]},         // 10
-]
+];
 
 // rank =
 // if type == WF:
@@ -140,4 +140,4 @@ const honor = {
         {type: 2, date: "11.05", region: "杭州赛区", honor: [[0, 4], [1, 5], [5, 5]]},
         {type: 2, date: "12.03", region: "CCPC-Final", honor: [[0, 4]]},
     ]
-}
+};
