@@ -55,3 +55,59 @@ const training = {
     "2018": {
     }
 };
+
+
+/*
+def member:
+    id -> name, major
+*/
+
+const members = [
+    {name:"唐靖哲", major:"计算机学院"},
+    {name:"张明远", major:"计算机学院"},
+    {name:"黄鑫", major:"计算机学院"},
+    {name:"金代圣", major:"计算机学院"},
+    {name:"刘子渊", major:"计算机学院"},
+    {name:"王柏润", major:"计算机学院"},
+    {name:"伍俊洁", major:"计算机学院"},
+    {name:"钟金成", major:"软件学院"},
+    {name:"钟梓皓", major:"计算机学院"},
+    {name:"胡智昊", major:"软件学院"},
+    {name:"邓一兴", major:"计算机学院"},
+    {name:"蒋泳波", major:"软件学院"},
+    {name:"林子义", major:"计算机学院"},
+    {name:"黄浩东", major:"软件学院"},
+    {name:"李搏", major:"计算机学院"},
+    {name:"张少昂", major:"计算机学院"},
+    {name:"杜昊", major:"软件学院"},
+    {name:"朱瑾", major:"计算机学院"},
+    {name:"姜圣虎", major:"计算机学院"},
+    {name:"赵立晨", major:"软件学院"},
+    {name:"谢瑶瑶", major:"软件学院"},
+    {name:"沈中海", major:"计算机学院"},
+    {name:"王嘉翼", major:"软件学院"},
+    {name:"李何贝子", major:"计算机学院"},
+    {name:"周环宇", major:"计算机学院"},
+    {name:"杨子琛", major:"计算机学院"},
+    {name:"何铭睿", major:"计算机学院"},
+    {name:"冯炜韬", major:"计算机学院"},
+    {name:"向宏毅", major:"计算机学院"},
+    {name:"史烨轩", major:"计算机学院"},
+    {name:"郭镕昊", major:"软件学院"},
+    {name:"张乾宇", major:"软件学院"},
+    {name:"王意如", major:"软件学院"},
+];
+
+const teams = [
+    {cn: "黑人问号.jpg", en: "Three investigators", members: [0, 2, 4]},
+    {cn: "TAT", en: "Ascender", members: [1, 3, 5]},
+    {cn: "我需要治疗", en: "heynihao", members: [6, 8, 10]},
+    {cn: "复苏", en: "ResuscitatedHope", members: [7, 9, 11]},
+    {cn: "CE使我快乐", en: "ACMakeMeHappier", members: [12, 13, 14]},
+    {cn: "水能载舟", en: "deticxe", members: [25, 27, 29]},
+    {cn: "人生已经如此的艰难", en: "L.I.P", members: [15, 18, 21]},
+    {cn: "头文件", en: "#include", members: [24, 26, 28]},
+    {cn: "极值点", en: "TooFarTooClose", members: [16, 19, 22]},
+    {cn: "tvcr", en: "tvcr", members: [30, 31, 32]},
+    {cn: "我们吓成一团了", en: "sto orz", members: [17, 20, 23]},
+]
