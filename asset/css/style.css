@@ -42,7 +42,7 @@ code {
 -------------------------------------------------- */
 
 #sidebar.affix {
-    top: 60px;
+    top: 20px;
 }
 /* sidebar */
 .bs-docs-sidebar {

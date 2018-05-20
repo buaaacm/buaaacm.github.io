@@ -8,45 +8,6 @@ $("#sidebar").affix({
     }
 });
 
-/*
-<table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>队伍</th>
-                                    <th colspan="3">成员</th>
-                                    <th>奖项</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                 <tr>
-                                    <td>黑人问号.jpg</td>
-                                    <td>唐靖哲</td>
-                                    <td>刘子渊</td>
-                                    <td>黄鑫</td>
-                                    <th>第14名</td>
-                                </tr><tr>
-                                    <td>黑人问号.jpg</td>
-                                    <td>唐靖哲</td>
-                                    <td>刘子渊</td>
-                                    <td>黄鑫</td>
-                                    <th>第14名</td>
-                                </tr><tr>
-                                    <td>黑人问号.jpg</td>
-                                    <td>唐靖哲</td>
-                                    <td>刘子渊</td>
-                                    <td>黄鑫</td>
-                                    <th>第14名</td>
-                                </tr><tr>
-                                    <td>黑人问号.jpg</td>
-                                    <td>唐靖哲</td>
-                                    <td>刘子渊</td>
-                                    <td>黄鑫</td>
-                                    <th>第14名</td>
-                                </tr>
-                            </tbody>
-                        </table>
-*/
-
 function awardString(x) {
     if (x == 1) return "金奖 (冠军)";
     if (x == 2) return "金奖 (亚军)";
@@ -60,7 +21,7 @@ function awardString(x) {
 
 function renderTable(result) {
     let table = $('<table class="table table-bordered"></table>');
-    let thead = $('<thead><colgroup><col width="30%"></col><col></col><col></col><col></col>' + 
+    let thead = $('<thead><colgroup><col width="25%"></col><col></col><col></col><col></col>' + 
                   '<col width="15%"></col></colgroup><tr><th>队伍</th><th colspan="3">成员</th><th>奖项</th></tr></thead>');
     table.append(thead);
     let tbody = $('<tbody></tbody>');
@@ -91,12 +52,15 @@ $(document).ready(function () {
         const detail = honor[year];
 
         let section = $(`<section id="${year}"><h2>${year}</h2></section>`);
+        let navi = $(`<li><a href="#${year}">${year}</a></li>`);
+        let subnavi = $('<ul class="nav nav-stacked"></ul>');
 
         if (detail.some((contest) => contest.type == 0)) {
             let WF = $(`<div id="${year + "_WF"}"><h3>ICPC World Finals</h3></div>`);
             let result = detail.find((contest) => contest.type == 0);
             WF.append(renderTable(result));
             section.append(WF);
+            subnavi.append($(`<li><a href="#${year + "_WF"}">ICPC World Finals</a></li>`));
         }
         if (detail.some((contest) => contest.type == 1)) {
             let icpc = $(`<div id="${year + "_icpc"}"><h3>ICPC Regional</h3></div>`);
@@ -107,6 +71,7 @@ $(document).ready(function () {
                 icpc.append(contest);
             }
             section.append(icpc);
+            subnavi.append($(`<li><a href="#${year + "_icpc"}">ICPC Regional</a></li>`));
         }
         if (detail.some((contest) => contest.type == 2)) {
             let ccpc = $(`<div id="${year + "_ccpc"}"><h3>CCPC</h3></div>`);
@@ -117,9 +82,10 @@ $(document).ready(function () {
                 ccpc.append(contest);
             }
             section.append(ccpc);
+            subnavi.append($(`<li><a href="#${year + "_ccpc"}">CCPC</a></li>`));
         }
-
-
+        navi.append(subnavi);
+        $('#sidebar').append(navi);
         $('#honor').append(section);
     }
 
