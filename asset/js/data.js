@@ -124,7 +124,7 @@ const teams = [
 
 const honor = {
     "2018" : [
-        {type: 0, date: "04.19", region: "Beijing, China", honor: [[0, 14]]},
+        {type: 0, date: "04.19", region: "Beijing, China", honor: [[0, -14]]},
     ],
     "2017" : [
         {type: 1, date: "10.22", region: "沈阳赛区", honor: [[0, 2], [1, 4]]},
