@@ -17,10 +17,10 @@
 
     <!-- Custom styles for this template -->
     <link href="asset/css/style.css" rel="stylesheet">
-    <link href="asset/css/table.css" rel="stylesheet">
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="asset/js/common.js"></script>
+    <script type="text/javascript" src="asset/js/data.js"></script>
   </head>
 
   <body>
@@ -28,7 +28,32 @@
     <div id="navbar_load"></div>
     <!-- Begin page content -->
     <div class="container">
-        
+        <div class="row">
+            <!--Nav Bar -->
+            <nav class="col-xs-3 bs-docs-sidebar">
+                <ul id="sidebar" class="nav nav-stacked">
+                    <li>
+                        <a href="#GroupA">Group A</a>
+                        <ul class="nav nav-stacked">
+                            <li><a href="#GroupASub1">Sub-Group 1</a></li>
+                            <li><a href="#GroupASub2">Sub-Group 2</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <!--Main Content -->
+            <div class="col-xs-9">
+                <section id="GroupA">
+                    <h3>Group A</h3>
+                    <div id="GroupASub1">
+                        <h4>Group A Sub 1</h4>
+                    </div>
+                    <div id="GroupASub2">
+                        <h4>Group A Sub 2</h4>
+                    </div>
+                </section>  
+            </div>
+        </div>
     </div>
     <!-- End page content -->
     <div id="footer_load"></div>
@@ -38,5 +63,6 @@
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="https://v3.bootcss.com/assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="asset/js/honor.js"></script>
   </body>
 </html>

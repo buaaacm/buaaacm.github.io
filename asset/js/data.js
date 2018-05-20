@@ -99,15 +99,45 @@ const members = [
 ];
 
 const teams = [
-    {cn: "黑人问号.jpg", en: "Three investigators", members: [0, 2, 4]},
+    {cn: "黑人问号.jpg", en: "Three investigators", members: [0, 2, 4]}, // 0
     {cn: "TAT", en: "Ascender", members: [1, 3, 5]},
     {cn: "我需要治疗", en: "heynihao", members: [6, 8, 10]},
     {cn: "复苏", en: "ResuscitatedHope", members: [7, 9, 11]},
     {cn: "CE使我快乐", en: "ACMakeMeHappier", members: [12, 13, 14]},
-    {cn: "水能载舟", en: "deticxe", members: [25, 27, 29]},
+    {cn: "水能载舟", en: "deticxe", members: [25, 27, 29]},              // 5
     {cn: "人生已经如此的艰难", en: "L.I.P", members: [15, 18, 21]},
     {cn: "头文件", en: "#include", members: [24, 26, 28]},
     {cn: "极值点", en: "TooFarTooClose", members: [16, 19, 22]},
     {cn: "tvcr", en: "tvcr", members: [30, 31, 32]},
-    {cn: "我们吓成一团了", en: "sto orz", members: [17, 20, 23]},
+    {cn: "我们吓成一团了", en: "sto orz", members: [17, 20, 23]},         // 10
 ]
+
+// rank =
+// if type == WF:
+//   rank
+// else:
+//   1: 1st ; 2: 2nd ; 3: 3rd 
+//   4: gold award
+//   5: sliver award
+//   6: bronze award
+//   7: honorable award
+
+const honor = {
+    "2018" : [
+        {type: 0, date: "04.19", region: "Beijing, China", honor: [[0, 14]]},
+    ],
+    "2017" : [
+        {type: 1, date: "10.22", region: "沈阳赛区", honor: [[0, 2], [1, 4]]},
+        {type: 1, date: "10.29", region: "西安赛区", honor: [[0, 4], [2, 4], [3, 4]]},
+        {type: 1, date: "11.05", region: "青岛赛区", honor: [[2, 4], [4, 6]]},
+        {type: 1, date: "11.19", region: "北京赛区", honor: [[6, 5], [8, 5], [10, 6]]},
+        {type: 1, date: "11.19", region: "香港赛区", honor: [[3, 4]]},
+        {type: 1, date: "11.26", region: "南宁赛区", honor: [[1, 4], [4, 4], [5, 4], [7, 6]]},
+        {type: 1, date: "12.03", region: "乌鲁木齐赛区", honor: [[9, 5]]},
+        {type: 1, date: "12.17", region: "ECL-Final", honor: [[0, 3], [1, 5], [2, 5], [5, 5]]},
+        {type: 2, date: "10.22", region: "哈尔滨赛区", honor: [[2, 4], [3, 4]]},
+        {type: 2, date: "10.29", region: "秦皇岛赛区", honor: [[4, 4], [6, 5], [7, 6]]},
+        {type: 2, date: "11.05", region: "杭州赛区", honor: [[0, 4], [1, 5], [5, 5]]},
+        {type: 2, date: "12.03", region: "CCPC-Final", honor: [[0, 4]]},
+    ]
+}
