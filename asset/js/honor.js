@@ -21,7 +21,7 @@ function awardString(x) {
 
 function renderTable(result) {
     let table = $('<table class="table table-bordered"></table>');
-    let thead = $('<thead><colgroup><col width="25%"></col><col></col><col></col><col></col>' + 
+    let thead = $('<thead><colgroup><col width="25%"></col><col width="20%"></col><col width="20%"></col><col width="20%"></col>' + 
                   '<col width="15%"></col></colgroup><tr><th>队伍</th><th colspan="3">成员</th><th>奖项</th></tr></thead>');
     table.append(thead);
     let tbody = $('<tbody></tbody>');
