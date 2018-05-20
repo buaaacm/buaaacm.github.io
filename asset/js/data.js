@@ -131,7 +131,7 @@ const honor = {
         {type: 1, date: "10.29", region: "西安赛区", honor: [[0, 4], [2, 4], [3, 4]]},
         {type: 1, date: "11.05", region: "青岛赛区", honor: [[2, 4], [4, 6]]},
         {type: 1, date: "11.19", region: "北京赛区", honor: [[6, 5], [8, 5], [10, 6]]},
-        {type: 1, date: "11.19", region: "香港赛区", honor: [[3, 4]]},
+        {type: 1, date: "11.19", region: "香港赛区", honor: [[3, 5]]},
         {type: 1, date: "11.26", region: "南宁赛区", honor: [[1, 4], [4, 4], [5, 4], [7, 6]]},
         {type: 1, date: "12.03", region: "乌鲁木齐赛区", honor: [[9, 5]]},
         {type: 1, date: "12.17", region: "ECL-Final", honor: [[0, 3], [1, 5], [2, 5], [5, 5]]},
