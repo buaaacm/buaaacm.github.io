@@ -292,7 +292,7 @@ const teams = [
     {cn: "", en: "L.I.P", members: [133, 134, 135]},
     {cn: "", en: "TooFarTooClose", members: [136, 137, 138]},
     {cn: "", en: "stO Orz", members: [125, 126, 127]},
-    {cn: "", en: "deticxe", members: [103, 105, 104]},
+    {cn: "", en: "deticxe", members: [105, 104, 111]},
     {cn: "", en: "#include", members: [139, 140, 141]},
     {cn: "", en: "tvcr", members: [142, 121, 143]},
 ];
