@@ -28,7 +28,7 @@ function renderTable(result) {
     for (let team of result.honor) {
         let id = team[0];
         let tr = $('<tr></tr>');
-        tr.append(`<td>${teams[id].cn}</td>`);
+        tr.append(`<td>${teams[id].en || teams[id].cn}</td>`);
         for (let i = 0 ; i < 3 ; ++ i) {
             let member = teams[id].members[i];
             tr.append(`<td>${members[member].name}</td>`);
@@ -66,7 +66,7 @@ $(document).ready(function () {
             let icpc = $(`<div id="${year + "_icpc"}"><h3>ICPC Regional</h3></div>`);
             let results = detail.filter((contest) => contest.type == 1);
             for (let result of results) {
-                let contest = $(`<div id="${year}_${result.date}"><h4>${result.region}</h4></div>`);
+                let contest = $(`<div><h4>${result.region}</h4></div>`);
                 contest.append(renderTable(result));
                 icpc.append(contest);
             }
@@ -77,7 +77,7 @@ $(document).ready(function () {
             let ccpc = $(`<div id="${year + "_ccpc"}"><h3>CCPC</h3></div>`);
             let results = detail.filter((contest) => contest.type == 2);
             for (let result of results) {
-                let contest = $(`<div id="${year}_${result.date}"><h4>${result.region}</h4></div>`);
+                let contest = $(`<div><h4>${result.region}</h4></div>`);
                 contest.append(renderTable(result));
                 ccpc.append(contest);
             }
