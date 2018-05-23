@@ -51,13 +51,15 @@ $(document).ready(function () {
     for (let year of years) {
         const detail = honor[year];
 
-        let section = $(`<section id="${year}"><h2>${year}</h2></section>`);
-        let navi = $(`<li><a href="#${year}">${year}</a></li>`);
+        let yearName = `${year}~${parseInt(year) + 1}`; 
+        let section = $(`<section id="${year}"><h2>${yearName}</h2></section>`);
+        let navi = $(`<li><a href="#${year}">${yearName}</a></li>`);
         let subnavi = $('<ul class="nav nav-stacked"></ul>');
 
         if (detail.some((contest) => contest.type == 0)) {
             let WF = $(`<div id="${year + "_WF"}"><h3>ICPC World Finals</h3></div>`);
             let result = detail.find((contest) => contest.type == 0);
+            WF.append(`<h4>${result.region}</h4>`)
             WF.append(renderTable(result));
             section.append(WF);
             subnavi.append($(`<li><a href="#${year + "_WF"}">ICPC World Finals</a></li>`));
@@ -85,6 +87,7 @@ $(document).ready(function () {
             subnavi.append($(`<li><a href="#${year + "_ccpc"}">CCPC</a></li>`));
         }
         navi.append(subnavi);
+        section.append('<hr>');
         $('#sidebar').append(navi);
         $('#honor').append(section);
     }
