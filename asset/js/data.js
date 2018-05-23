@@ -308,8 +308,6 @@ const teams = [
 //   7: honorable award
 
 const honor = {
-    "2018" : [
-    ],
     "2017" : [
         {type: 0, region: "北京，中国", honor: [[74, -14]]},
         {type: 1, region: "沈阳赛区（东北大学）", honor: [[74, 2], [75, 4]]},
