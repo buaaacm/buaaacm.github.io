@@ -295,6 +295,7 @@ const teams = [
     {cn: "", en: "deticxe", members: [105, 104, 111]},
     {cn: "", en: "#include", members: [139, 140, 141]},
     {cn: "", en: "tvcr", members: [142, 121, 143]},
+    {cn: "", en: "The South China Sea", members: [133, 134, 135]},
 ];
 
 // rank =
@@ -327,7 +328,7 @@ const honor = {
         {type: 0, region: "拉皮德城，美国", honor: [[65, -56]]},
         {type: 1, region: "大连赛区（大连海事大学）", honor: [[65, 2], [66, 4], [67, 6]]},
         {type: 1, region: "沈阳赛区（东北大学）", honor: [[68, 5], [69, 5], [70, 6]]},
-        {type: 1, region: "香港赛区（香港中文大学）", honor: [[71, 6]]},
+        {type: 1, region: "香港赛区（香港中文大学）", honor: [[71, 6], [85, 7]]},
         {type: 1, region: "青岛赛区（中国石油大学）", honor: [[65, 4], [69, 5], [66, 6]]},
         {type: 1, region: "北京赛区（北京大学）", honor: [[72, 5], [70, 6], [73, 7]]},
         {type: 1, region: "China-Final（上海大学)", honor: [[65, 4], [70, 5], [72, 5], [66, 5]]},
