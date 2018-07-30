@@ -325,12 +325,6 @@ function getEChartOption(contest) {
         }
     }
     for (var i = 0 ; i < ranklist.length ; ++ i) {
-        for (var k = 1 ; k + 1 < points[i].length ; ++ k) {
-            if (!points[i][k][2] && points[i][k][1] == points[i][k - 1][1] &&
-                                    points[i][k][1] == points[i][k + 1][1]) {
-                //points[i][k][0] = -1;
-            }
-        }
         for (var k = 0 ; k < points[i].length ; ++ k) {
             if (points[i][k][0] >= 0) {
                 option.series[i].data.push({
