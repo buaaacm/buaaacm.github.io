@@ -17,8 +17,6 @@ function getEChartOption(year) {
             right: '15%',
         },
         xAxis:  {
-            name: 'Date',
-            nameLocation: 'middle',
             data: trainingRanklist[year].map(x => x[0]),
         },
         yAxis: {

@@ -28,7 +28,7 @@ function renderTable(result) {
     for (let team of result.honor) {
         let id = team[0];
         let tr = $('<tr></tr>');
-        tr.append(`<td>${teams[id].en || teams[id].cn}</td>`);
+        tr.append(`<td>${teams[id].cn || teams[id].en}</td>`);
         for (let i = 0 ; i < 3 ; ++ i) {
             let member = teams[id].members[i];
             tr.append(`<td>${members[member].name}</td>`);
