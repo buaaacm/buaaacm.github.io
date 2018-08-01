@@ -1,6 +1,5 @@
 function getEChartOption(year) {
     let option = {
-        height: 480,
         toolbox: {
             show: true,
             feature: {
@@ -20,9 +19,10 @@ function getEChartOption(year) {
             data: trainingRanklist[year].map(x => x[0]),
         },
         yAxis: {
-            name: 'Rating',
+            name: 'Rank',
             nameLocation: 'middle',
             type: 'value',
+            inverse: true,
         },
     };
     option.legend = {
@@ -34,16 +34,17 @@ function getEChartOption(year) {
     };
     option.series = [];
     for (let name of teams[year]) {
-        let status = {};
-        status.name = name;
-        status.type = 'line';
-        status.data = [];
+        let status = {
+            name: name,
+            type: 'line',
+            data: [],
+        };
         option.series.push(status);
     }
     let ranklist = trainingRanklist[year];
+    let points = [];
     for (let teamId = 0 ; teamId < teams[year].length ; ++ teamId) {
-        let l = [];
-        console.log(teamId);
+        let l = [] , point = [];
         let count = 0;
         for (let training of ranklist) {
             let rank = training.indexOf(teamId + 1);
@@ -57,9 +58,25 @@ function getEChartOption(year) {
             for (let i = less ; i < l.length ; ++ i) {
                 sum += l[i];
             }
-            option.series[teamId].data.push(sum);
+            point.push(sum);
         }
+        points.push(point);
     }
+
+    for (let i = 0 ; i < ranklist.length ; ++ i) {
+
+        for (let j = 0 ; j < teams[year].length ; ++ j) {
+            let rank = 1;
+            for (let k = 0 ; k < teams[year].length ; ++ k) {
+                if (points[k][i] > points[j][i]) {
+                    ++ rank;
+                }
+            }
+            option.series[j].data.push(rank);
+        }
+
+    }
+
     return option;
 }
 
