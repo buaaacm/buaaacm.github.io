@@ -1,3 +1,5 @@
+let scores = [];
+
 function getEChartOption(year) {
     let option = {
         toolbox: {
@@ -15,7 +17,7 @@ function getEChartOption(year) {
         grid: {
             right: '15%',
         },
-        xAxis:  {
+        xAxis: {
             data: trainingRanklist[year].map(x => x[0]),
         },
         yAxis: {
@@ -43,33 +45,37 @@ function getEChartOption(year) {
     }
     let ranklist = trainingRanklist[year];
     let points = [];
-    for (let teamId = 0 ; teamId < teams[year].length ; ++ teamId) {
-        let l = [] , point = [];
-        let count = 0;
+    scores = [];
+    for (let teamId = 0; teamId < teams[year].length; ++teamId) {
+        let l = [],
+            point = [];
+        let count = 0 , last = 0;
         for (let training of ranklist) {
             let rank = training.indexOf(teamId + 1);
             l.push(score[rank]);
             l = l.sort(function(a, b) {
                 return a - b;
             });
-            count ++;
-            let less = Math.min(Math.floor(count / 6) , 2);
+            count++;
+            let less = Math.min(Math.floor(count / 6), 2);
             let sum = 0;
-            for (let i = less ; i < l.length ; ++ i) {
+            for (let i = less; i < l.length; ++i) {
                 sum += l[i];
             }
             point.push(sum);
+            last = sum;
         }
+        scores.push(last);
         points.push(point);
     }
 
-    for (let i = 0 ; i < ranklist.length ; ++ i) {
+    for (let i = 0; i < ranklist.length; ++i) {
 
-        for (let j = 0 ; j < teams[year].length ; ++ j) {
+        for (let j = 0; j < teams[year].length; ++j) {
             let rank = 1;
-            for (let k = 0 ; k < teams[year].length ; ++ k) {
+            for (let k = 0; k < teams[year].length; ++k) {
                 if (points[k][i] > points[j][i]) {
-                    ++ rank;
+                    ++rank;
                 }
             }
             option.series[j].data.push(rank);
@@ -80,8 +86,50 @@ function getEChartOption(year) {
     return option;
 }
 
-$(document).ready(function () {
+function getRanklistOption(year) {
+    option = {
+        tooltip: {
+            trigger: 'item'
+        },
+        toolbox: {
+            show: false,
+        },
+        yAxis: [{
+            inverse: true,
+            type: 'category',
+            data: teams[year]
+        }],
+        xAxis: [{
+            type: 'value',
+        }],
+        series: [{
+            name: '积分',
+            type: 'bar',
+            itemStyle: {
+                normal: {
+                    color: function(params) {
+                        var colorList = [
+                            '#c23531','#2f4554', '#61a0a8', '#d48265', 
+                            '#91c7ae','#749f83', '#ca8622', '#bda29a',
+                            '#6e7074', '#546570', '#c4ccd3'
+                        ];
+                        return colorList[params.dataIndex % colorList.length];
+                    },
+                    label: {
+                        show: true,
+                    }
+                }
+            },
+            data: scores,
+        }]
+    };
+    return option;
+}
+
+$(document).ready(function() {
     var myChart = echarts.init(document.getElementById('chart'));
-    myChart.clear();
-    myChart.setOption(getEChartOption('2017'));
+    myChart.setOption(getEChartOption('2018'));
+    var myRank = echarts.init(document.getElementById('rating'));
+    myRank.setOption(getRanklistOption('2018'));
+    //myRank.setOption(('2018'));
 });
