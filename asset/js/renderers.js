@@ -51,6 +51,9 @@ function parse_board(contest) {
         header += String.fromCharCode('A'.charCodeAt(0) + i);
         header += '</th>';
     }
+    header += '<th>';
+    header += 'Dirt';
+    header += '</th>';
     header += '</tr>';
     $('#board').append(header);
 
@@ -76,10 +79,13 @@ function parse_board(contest) {
         var row = '<tr><td>' + String(i + 1) + '</td><td>' + team + '</td>';
 
         var solved = 0, penalty = 0;
+        var wrong_tries = 0, total_tries = 0;
         for (var j = 0 ; j < problem_num ; ++ j) {
             if (status[j][1] !== -1) {
                 solved ++;
                 penalty += status[j][1] + status[j][2] * 20;
+                total_tries += 1 + status[j][2];
+                wrong_tries += status[j][2];
             }
         }
         row += '<td>' + String(solved) + '</td>';
@@ -87,6 +93,8 @@ function parse_board(contest) {
         for (var j = 0 ; j < problem_num ; ++ j) {
             row += parse_detail(status[j] , first_blood[j]);
         }
+        let dirt_rate = total_tries > 0 ? Math.round(wrong_tries * 100 / total_tries) : 0;
+        row += `<td><span><b>${dirt_rate}%</b></span><br>${wrong_tries}/${total_tries}</td>`;
         row += '</tr>';
         $('#board').append(row);
     }
