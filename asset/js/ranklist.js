@@ -47,9 +47,8 @@ function getEChartOption(year) {
     let points = [];
     scores = [];
     for (let teamId = 0; teamId < teams[year].length; ++teamId) {
-        let l = [],
-            point = [];
-        let count = 0 , last = 0;
+        let l = [], point = [];
+        let count = 0, last = 0;
         for (let training of ranklist) {
             let rank = training.indexOf(teamId + 1);
             l.push(score[rank]);
@@ -70,7 +69,6 @@ function getEChartOption(year) {
     }
 
     for (let i = 0; i < ranklist.length; ++i) {
-
         for (let j = 0; j < teams[year].length; ++j) {
             let rank = 1;
             for (let k = 0; k < teams[year].length; ++k) {
@@ -82,7 +80,6 @@ function getEChartOption(year) {
         }
 
     }
-
     return option;
 }
 
@@ -103,14 +100,13 @@ function getRanklistOption(year) {
             type: 'value',
         }],
         series: [{
-            name: '积分',
             type: 'bar',
             itemStyle: {
                 normal: {
                     color: function(params) {
                         var colorList = [
-                            '#c23531','#2f4554', '#61a0a8', '#d48265', 
-                            '#91c7ae','#749f83', '#ca8622', '#bda29a',
+                            '#c23531', '#2f4554', '#61a0a8', '#d48265',
+                            '#91c7ae', '#749f83', '#ca8622', '#bda29a',
                             '#6e7074', '#546570', '#c4ccd3'
                         ];
                         return colorList[params.dataIndex % colorList.length];
@@ -131,5 +127,4 @@ $(document).ready(function() {
     myChart.setOption(getEChartOption('2018'));
     var myRank = echarts.init(document.getElementById('rating'));
     myRank.setOption(getRanklistOption('2018'));
-    //myRank.setOption(('2018'));
 });
