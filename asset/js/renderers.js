@@ -297,15 +297,16 @@ function getEChartOption(contest) {
         var T = pass_time[k];
         var scores = [];
         for (var i = 0 ; i < ranklist.length ; ++ i) {
-            var team = ranklist[i], solved = 0, penalty = 0;
+            var team = ranklist[i], solved = 0, penalty = 0, last = -1;
             for (var j = 0 ; j < problem_num ; ++ j) {
                 var t = contest.statuses[team][j][1];
                 if (0 <= t && t <= T) {
                     ++ solved;
-                    penalty += contest.statuses[team][j][1] + contest.statuses[team][j][2] * 20;
+                    last = Math.max(last, t);
+                    penalty += t + contest.statuses[team][j][2] * 20;
                 }
             }
-            scores.push([solved, penalty]);
+            scores.push([solved, penalty, last]);
         }
 
         for (var i = 0 ; i < ranklist.length ; ++ i) {
@@ -314,6 +315,8 @@ function getEChartOption(contest) {
                 if (scores[j][0] > scores[i][0]) {
                     ++ rank;
                 } else if (scores[j][0] === scores[i][0] && scores[j][1] < scores[i][1]) {
+                    ++ rank;
+                } else if (scores[j][0] === scores[i][0] && scores[j][1] == scores[i][1] && scores[j][2] < scores[i][2]) { 
                     ++ rank;
                 }
             }
