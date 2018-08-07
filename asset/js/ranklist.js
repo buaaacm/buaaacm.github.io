@@ -176,10 +176,11 @@ function getTrainingOption(year) {
 }
 
 $(document).ready(function() {
+    const year = '2018';
     var myChart = echarts.init(document.getElementById('chart'));
-    myChart.setOption(getEChartOption('2018'));
+    myChart.setOption(getEChartOption(year));
     var myRank = echarts.init(document.getElementById('rating'));
-    myRank.setOption(getRanklistOption('2018'));
-    var myRank = echarts.init(document.getElementById('training'));
-    myRank.setOption(getTrainingOption('2018'));
+    myRank.setOption(getRanklistOption(year));
+    var myTraining = echarts.init(document.getElementById('training'));
+    myTraining.setOption(getTrainingOption(year));
 });
