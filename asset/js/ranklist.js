@@ -56,7 +56,7 @@ function getEChartOption(year) {
                 return a - b;
             });
             count++;
-            let less = Math.min(Math.floor(count / 6), 2);
+            let less = Math.min(Math.floor(count / 5), 2);
             let sum = 0;
             for (let i = less; i < l.length; ++i) {
                 sum += l[i];
@@ -122,9 +122,64 @@ function getRanklistOption(year) {
     return option;
 }
 
+function getTrainingOption(year) {
+    let option = {
+        toolbox: {
+            show: true,
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                restore: {},
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        grid: {
+            right: '15%',
+        },
+        xAxis: {
+            data: trainingRanklist[year].map(x => x[0]),
+        },
+        yAxis: {
+            name: 'Rank',
+            nameLocation: 'middle',
+            type: 'value',
+            inverse: true,
+        },
+    };
+    option.legend = {
+        orient: 'vertical',
+        right: 10,
+        top: 60,
+        bottom: 60,
+        data: teams[year],
+    };
+    option.series = [];
+    for (let name of teams[year]) {
+        let status = {
+            name: name,
+            type: 'line',
+            data: [],
+        };
+        option.series.push(status);
+    }
+    let ranklist = trainingRanklist[year];
+    for (let teamId = 0; teamId < teams[year].length; ++teamId) {
+        for (let training of ranklist) {
+            let rank = training.indexOf(teamId + 1);
+            option.series[teamId].data.push(rank);
+        }
+    }
+    return option;
+}
+
 $(document).ready(function() {
     var myChart = echarts.init(document.getElementById('chart'));
     myChart.setOption(getEChartOption('2018'));
     var myRank = echarts.init(document.getElementById('rating'));
     myRank.setOption(getRanklistOption('2018'));
+    var myRank = echarts.init(document.getElementById('training'));
+    myRank.setOption(getTrainingOption('2018'));
 });
