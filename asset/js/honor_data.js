@@ -143,6 +143,11 @@ const members = [
     {name:"向宏毅", major:""},
     {name:"郭镕昊", major:""},
     {name:"王意如", major:""},
+    {name:"彭毛小民", major:""},
+    {name:"张凯杰", major:""},
+    {name:"郑耀彦", major:""},
+    {name:"肖思炀", major:""},
+    {name:"丁元杰", major:""},
 ];
 
 const teams = [
@@ -220,23 +225,32 @@ const teams = [
     {cn: "", en: "QAQ", members: [122, 123, 124]},
     {cn: "", en: "deticxe", members: [103, 105, 104]},
     {cn: "", en: "stO Orz", members: [125, 126, 127]},
-    {cn: "黑人问号.jpg", en: "Three Investigators", members: [98, 106, 115]},
+    {cn: "黑人问号.jpg", en: "Three Investigators", members: [98, 106, 115]}, // 74
     {cn: "TAT", en: "Ascender", members: [122, 124, 128]},
     {cn: "复苏", en: "ResuscitatedHope", members: [116, 117, 118]},
     {cn: "我需要治疗", en: "Heynihao", members: [129, 130, 131]},
     {cn: "CE使我快乐", en: "ACMakeMeHappier", members: [112, 132, 114]},
     {cn: "人生已经如此的艰难", en: "L.I.P", members: [133, 134, 135]},
-    {cn: "极值点", en: "TooFarTooClose", members: [136, 137, 138]},
+    {cn: "极值点", en: "TooFarTooClose", members: [136, 137, 138]}, // 80
     {cn: "我们吓成一团了", en: "stO Orz", members: [125, 126, 127]},
     {cn: "水能载舟", en: "deticxe", members: [105, 104, 111]},
     {cn: "头文件", en: "#include", members: [139, 140, 141]},
     {cn: "tvcr", en: "tvcr", members: [142, 121, 143]},
     {cn: "", en: "The South China Sea", members: [133, 134, 135]},
+    {cn: "趣味时光", en: "Nonsense Time", members: [129, 130, 131]}, // 86
+    {cn: "小黄鸡咕咕咕", en: "Ascender", members: [122, 124, 128]},
+    {cn: "啊，队友呢？队友呢？队友呢？！队友呢？！？！", en: "Eh,gugugu?Gugugu?Gugugu?!Gugugu?!?!", members: [116, 117, 118]},
+    {cn: "比宇宙更远的地方", en: "TooFarTooClose", members: [136, 137, 138]},
+    {cn: "除了AC", en: "WithoutAC", members: [134, 142, 144]},
+    {cn: "从不刷题队", en: "zhenxiang", members: [139, 140, 141]}, // 91
+    {cn: "梦中做自己", en: "ForTheDream", members: [133, 135, 145]},
+    {cn: "菜里别加鎕", en: "No CE in vegetable", members: [146, 147, 148]},
+    {cn: "除了AC", en: "WithoutAC", members: [134, 142, 138]},
 ];
 
 // rank =
 // if type == WF:
-//   rank
+//   -rank
 // else:
 //   1: 1st ; 2: 2nd ; 3: 3rd 
 //   4: gold award
@@ -245,6 +259,20 @@ const teams = [
 //   7: honorable award
 
 const honor = {
+    "2018" : [
+        //{type: 0, region: "北京，中国", honor: [[74, -14]]},
+        {type: 1, region: "南京赛区（南京航空航天大学）", honor: [[90, 4], [89, 5], [88, 5]]},
+        {type: 1, region: "沈阳赛区（东北大学）", honor: [[86, 4], [87, 4]]},
+        {type: 1, region: "徐州赛区（中国矿业大学）", honor: [[90, 4], [89, 5], [91, 5]]},
+        {type: 1, region: "青岛赛区（中国石油大学）", honor: [[86, 4], [91, 5]]},
+        {type: 1, region: "北京赛区（北京大学）", honor: [[92, 5], [93, 6]]},
+        {type: 1, region: "焦作赛区（河南理工大学）", honor: [[87, 4], [92, 5], [88, 6], [93, 6]]},
+        {type: 1, region: "ECL-Final（西北工业大学）", honor: [[86, 4], [87, 4], [90, 4], [89, 4], [92, 5]]},
+        {type: 2, region: "CCPC吉林赛区（北华大学）", honor: [[94, 4], [91, 4]]},
+        {type: 2, region: "CCPC秦皇岛赛区（东北大学秦皇岛分校）", honor: [[89, 4], [91, 4]]},
+        {type: 2, region: "CCPC桂林赛区（桂林电子科技大学）", honor: [[86, 4], [87, 5]]},
+        {type: 2, region: "CCPC-Final（哈尔滨工业大学深圳）", honor: [[86, 5], [94, 6]]},
+    ],
     "2017" : [
         {type: 0, region: "北京，中国", honor: [[74, -14]]},
         {type: 1, region: "沈阳赛区（东北大学）", honor: [[74, 2], [75, 4]]},
