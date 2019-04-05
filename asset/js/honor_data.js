@@ -252,7 +252,7 @@ const teams = [
 // if type == WF:
 //   -rank
 // else:
-//   1: 1st ; 2: 2nd ; 3: 3rd 
+//   1: 1st ; 2: 2nd ; 3: 3rd
 //   4: gold award
 //   5: sliver award
 //   6: bronze award
@@ -260,7 +260,7 @@ const teams = [
 
 const honor = {
     "2018" : [
-        //{type: 0, region: "北京，中国", honor: [[74, -14]]},
+        {type: 0, region: "波尔图，葡萄牙", honor: [[86, -21]]},
         {type: 1, region: "南京赛区（南京航空航天大学）", honor: [[90, 4], [89, 5], [88, 5]]},
         {type: 1, region: "沈阳赛区（东北大学）", honor: [[86, 4], [87, 4]]},
         {type: 1, region: "徐州赛区（中国矿业大学）", honor: [[90, 4], [89, 5], [91, 5]]},
