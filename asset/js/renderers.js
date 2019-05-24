@@ -383,7 +383,6 @@ function parse(contest) {
             parse_board(contest, params.data.coord[0]);
         } 
         if (params.componentType == "markArea") {
-            console.log(params);
             parse_board(contest);
         } 
     });
@@ -412,7 +411,7 @@ $(document).ready(function () {
     for (let p of contest_list.sort()) {
         let link = `<a class="list-group-item" data-toggle="tooltip" data-placement="right" title=
                     "${data[p].title}" onclick="selectTraining(\'${argmap.year}\', '${p}')" 
-                    href=?year=${argmap.year}#id=${p}>${data[p].date.substring(5)}</a>`;
+                    href=#id=${p}>${data[p].date.substring(5)}</a>`;
         $('#contest_list').append(link);
     }
     $('[data-toggle="tooltip"]').tooltip();
