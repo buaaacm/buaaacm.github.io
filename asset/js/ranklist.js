@@ -104,7 +104,7 @@ function getRanklistOption(year) {
             itemStyle: {
                 normal: {
                     color: function(params) {
-                        var colorList = [
+                        let colorList = [
                             '#c23531', '#2f4554', '#61a0a8', '#d48265',
                             '#91c7ae', '#749f83', '#ca8622', '#bda29a',
                             '#6e7074', '#546570', '#c4ccd3'
@@ -177,10 +177,10 @@ function getTrainingOption(year) {
 
 $(document).ready(function() {
     const year = '2018';
-    var myChart = echarts.init(document.getElementById('chart'));
+    let myChart = echarts.init(document.getElementById('chart'));
     myChart.setOption(getEChartOption(year));
-    var myRank = echarts.init(document.getElementById('rating'));
+    let myRank = echarts.init(document.getElementById('rating'));
     myRank.setOption(getRanklistOption(year));
-    var myTraining = echarts.init(document.getElementById('training'));
+    let myTraining = echarts.init(document.getElementById('training'));
     myTraining.setOption(getTrainingOption(year));
 });

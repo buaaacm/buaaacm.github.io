@@ -70,6 +70,6 @@ function getEChartOption() {
 }
 
 $(document).ready(function() {
-    var myChart = echarts.init(document.getElementById('chart'));
+    let myChart = echarts.init(document.getElementById('chart'));
     myChart.setOption(getEChartOption());
 });
