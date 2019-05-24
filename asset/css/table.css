@@ -55,7 +55,11 @@ td.fluid {
 .failed {
     color: red;
     font-weight: bold;
-    /*color: #00a;*/
+}
+
+.unknown {
+    color: #00a;
+    font-weight: bold;
 }
 
 #chart {

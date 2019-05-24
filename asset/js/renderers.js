@@ -14,10 +14,10 @@ function formatter(hour, minute) {
     return str;
 }
 
-function parse_detail(detail, first_blood) {
+function parse_detail(detail, first_blood, currentTime) {
     let html = '';
     let first_solve = false;
-    if (detail[1] !== -1) {
+    if (detail[1] !== -1 && detail[1] <= currentTime) {
         let time = formatter(Math.floor(detail[1] / 60), detail[1] % 60);
         html += '<span class="accepted">';
         if (detail[1] === first_blood) {
@@ -28,10 +28,14 @@ function parse_detail(detail, first_blood) {
         } else {
             html += `+${detail[2]}</span><br>` + time;
         }
-    } else if (detail[2] > 0) {
+    } else if (detail[2] > 0 && currentTime == Number.MAX_VALUE) {
         html += '<span class="failed">';
         html += String(-detail[2]) + '</span>';
+    } else if (detail[1] !== -1 && detail[1] > currentTime ||
+               detail[2] > 0 && currentTime != Number.MAX_VALUE) {
+        html += '<span class="unknown">?</span>';
     }
+
     if (first_solve) {
         html = '<td style="background:lightgreen">' + html + '</td>';
     } else {
@@ -40,7 +44,7 @@ function parse_detail(detail, first_blood) {
     return html;
 }
 
-function parse_board(contest) {
+function parse_board(contest, currentTime = Number.MAX_VALUE) {
     $('#title').text(contest.title);
     $('#date').text(contest.date);
     $('#board').empty();
@@ -68,15 +72,40 @@ function parse_board(contest) {
         }
     }
 
+    let scores = [];
     for (let i = 0 ; i < ranklist.length ; ++ i) {
         let team = ranklist[i];
         let status = contest.statuses[team];
-        let row = `<tr><td>${i + 1}</td><td>${team}</td>`;
+
+        let solved = 0, penalty = 0, last = 0;
+        for (let j = 0 ; j < problem_num ; ++ j) {
+            if (status[j][1] !== -1 && status[j][1] <= currentTime) {
+                solved ++;
+                penalty += status[j][1] + status[j][2] * 20;
+                last = Math.max(last, status[j][1]);
+            }
+        }
+        scores.push([-solved, penalty, last, i]);
+    }
+    scores = scores.sort((a, b) => {
+        for (let i = 0 ; i < 3 ; ++ i) {
+            if (a[i] != b[i]) {
+                return a[i] - b[i];
+            }
+        }
+        return 0;
+    });
+
+    for (let k = 0 ; k < ranklist.length ; ++ k) {
+        let i = scores[k][3];
+        let team = ranklist[i];
+        let status = contest.statuses[team];
+        let row = `<tr><td>${k + 1}</td><td>${team}</td>`;
 
         let solved = 0, penalty = 0;
         let wrong_tries = 0, total_tries = 0;
         for (let j = 0 ; j < problem_num ; ++ j) {
-            if (status[j][1] !== -1) {
+            if (status[j][1] !== -1 && status[j][1] <= currentTime) {
                 solved ++;
                 penalty += status[j][1] + status[j][2] * 20;
                 total_tries += 1 + status[j][2];
@@ -86,7 +115,7 @@ function parse_board(contest) {
         row += `<td>${solved}</td>`;
         row += `<td>${penalty}</td>`;
         for (let j = 0 ; j < problem_num ; ++ j) {
-            row += parse_detail(status[j] , first_blood[j]);
+            row += parse_detail(status[j] , first_blood[j], currentTime);
         }
         let dirt_rate = total_tries > 0 ? Math.round(wrong_tries * 100 / total_tries) : 0;
         row += `<td><span><b>${dirt_rate}%</b></span><br>${wrong_tries}/${total_tries}</td>`;
@@ -234,7 +263,7 @@ function getEChartOption(contest) {
     }
     let pass_time = [0, contest.time];
 
-    if (contest.time > 120) {
+    if (contest.time >= 150) {
         pass_time.push(contest.time - 60);
     }
 
@@ -349,6 +378,15 @@ function parse(contest) {
     let myChart = echarts.init(document.getElementById('chart'));
     myChart.clear();
     myChart.setOption(getEChartOption(contest));
+    myChart.on('click', function (params) {
+        if (params.componentType == "markPoint") {
+            parse_board(contest, params.data.coord[0]);
+        } 
+        if (params.componentType == "markArea") {
+            console.log(params);
+            parse_board(contest);
+        } 
+    });
 }
 
 function selectTraining(year ,key) {
