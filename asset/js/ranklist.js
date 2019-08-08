@@ -56,7 +56,7 @@ function getEChartOption(year) {
                 return a - b;
             });
             count++;
-            let less = Math.min(Math.floor(count / 5), 2);
+            let less = Math.min(Math.floor(count / 4), 3);
             let sum = 0;
             for (let i = less; i < l.length; ++i) {
                 sum += l[i];
@@ -176,7 +176,7 @@ function getTrainingOption(year) {
 }
 
 $(document).ready(function() {
-    const year = '2018';
+    const year = '2019';
     let myChart = echarts.init(document.getElementById('chart'));
     myChart.setOption(getEChartOption(year));
     let myRank = echarts.init(document.getElementById('rating'));
