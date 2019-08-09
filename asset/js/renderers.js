@@ -269,7 +269,7 @@ function getEChartOption(contest) {
 
     option.legend = {
         orient: 'vertical',
-        right: 10,
+        right: -40,
         top: 60,
         bottom: 60,
         data: [],

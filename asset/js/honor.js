@@ -91,6 +91,5 @@ $(document).ready(function () {
         $('#sidebar').append(navi);
         $('#honor').append(section);
     }
-
 });
 
