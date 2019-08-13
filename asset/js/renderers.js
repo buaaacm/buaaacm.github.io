@@ -29,13 +29,11 @@ function parse_detail(detail, first_blood, currentTime) {
             html += `+${detail[2]}</span><br>` + time;
         }
     } else if (detail[2] > 0 && currentTime == Number.MAX_VALUE) {
-        html += '<span class="failed">';
-        html += String(-detail[2]) + '</span>';
+        html += `<span class="failed">${String(-detail[2])}</span>`;
     } else if (detail[1] !== -1 && detail[1] > currentTime ||
                detail[2] > 0 && currentTime != Number.MAX_VALUE) {
         html += '<span class="unknown">?</span>';
     }
-
     if (first_solve) {
         html = '<td style="background:lightgreen">' + html + '</td>';
     } else {
