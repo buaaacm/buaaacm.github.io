@@ -94,19 +94,11 @@ function parse_board(contest, currentTime = Number.MAX_VALUE) {
         return 0;
     });
 
-    let rank = 0;
     for (let k = 0 ; k < ranklist.length ; ++ k) {
         let i = scores[k][3];
         let team = ranklist[i];
         let status = contest.statuses[team];
-        let star = false;
-        if (team.startsWith('*')) {
-            star = true;
-            team = team.substring(1);
-        } else {
-            rank ++;
-        }
-        let row = `<tr><td>${star ? "*" : rank}</td><td>${team}</td>`;
+        let row = `<tr><td>${k + 1}</td><td>${team}</td>`;
 
         let solved = 0, penalty = 0;
         let wrong_tries = 0, total_tries = 0;
@@ -259,7 +251,7 @@ function getEChartOption(contest) {
             type: 'value',
             inverse: true,
             min: 0,
-            max: contest.ranklist.length + 1,
+            max: 15,
         },
     };
     let ranklist = contest.ranklist;
