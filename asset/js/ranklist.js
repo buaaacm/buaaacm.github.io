@@ -29,7 +29,7 @@ function getEChartOption(year) {
     };
     option.legend = {
         orient: 'vertical',
-        right: 10,
+        right: -10,
         top: 60,
         bottom: 60,
         data: teams[year],
@@ -84,9 +84,15 @@ function getEChartOption(year) {
 }
 
 function getRanklistOption(year) {
+    const teamScores = teams[year].reduce((list, teamName, index) => {
+        return [...list, [teamName, scores[index]]]
+    }, []);
+    const sortedTeamScores = teamScores.slice().sort(([_name1, score1], [_name2, score2]) => score2 - score1);
+    const nameData = sortedTeamScores.map(([name]) => name.slice(0, 6) + (name.length > 6 ? '...' : ''));
+    const scoreData = sortedTeamScores.map(([_, score]) => score);
     option = {
         tooltip: {
-            trigger: 'item'
+            trigger: 'item',
         },
         toolbox: {
             show: false,
@@ -94,7 +100,7 @@ function getRanklistOption(year) {
         yAxis: [{
             inverse: true,
             type: 'category',
-            data: teams[year]
+            data: nameData,
         }],
         xAxis: [{
             type: 'value',
@@ -116,7 +122,7 @@ function getRanklistOption(year) {
                     }
                 }
             },
-            data: scores,
+            data: scoreData,
         }]
     };
     return option;
@@ -151,7 +157,7 @@ function getTrainingOption(year) {
     };
     option.legend = {
         orient: 'vertical',
-        right: 10,
+        right: -10,
         top: 60,
         bottom: 60,
         data: teams[year],
