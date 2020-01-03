@@ -3,7 +3,7 @@ function getEChartOption() {
     let years = [], year = 2005;
     while (honor[year.toString()]) {
         years.push(year.toString());
-        year ++;
+        year++;
     }
     let option = {
         toolbox: {
@@ -69,7 +69,7 @@ function getEChartOption() {
     return option;
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     let myChart = echarts.init(document.getElementById('chart'));
     myChart.setOption(getEChartOption());
 });

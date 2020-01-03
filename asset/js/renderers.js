@@ -1,4 +1,4 @@
-google.charts.load('current', {packages: ['corechart', 'line']});
+google.charts.load('current', { packages: ['corechart', 'line'] });
 
 function formatter(hour, minute) {
     let str = '';
@@ -31,7 +31,7 @@ function parse_detail(detail, first_blood, currentTime) {
     } else if (detail[2] > 0 && currentTime == Number.MAX_VALUE) {
         html += `<span class="failed">${String(-detail[2])}</span>`;
     } else if (detail[1] !== -1 && detail[1] > currentTime ||
-               detail[2] > 0 && currentTime != Number.MAX_VALUE) {
+        detail[2] > 0 && currentTime != Number.MAX_VALUE) {
         html += '<span class="unknown">?</span>';
     }
     if (first_solve) {
@@ -48,7 +48,7 @@ function parse_board(contest, currentTime = Number.MAX_VALUE) {
     $('#board').empty();
     let problem_num = contest.num;
     let header = '<caption>Standings</caption><tbody><tr><th>#</th><th>Who</th><th>=</th><th>Penalty</th>';
-    for (let i = 0 ; i < problem_num ; ++ i) {
+    for (let i = 0; i < problem_num; ++i) {
         header += `<th>${String.fromCharCode('A'.charCodeAt(0) + i)}</th>`;
     }
     header += '<th>Dirt</th></tr>';
@@ -57,13 +57,13 @@ function parse_board(contest, currentTime = Number.MAX_VALUE) {
     let ranklist = contest.ranklist;
 
     let first_blood = new Array(problem_num);
-    for (let i = 0 ; i < problem_num ; ++ i) {
+    for (let i = 0; i < problem_num; ++i) {
         first_blood[i] = Number.MAX_VALUE;
     }
-    for (let i = 0 ; i < ranklist.length ; ++ i) {
+    for (let i = 0; i < ranklist.length; ++i) {
         let team = ranklist[i];
         let status = contest.statuses[team];
-        for (let j = 0 ; j < problem_num ; ++ j) {
+        for (let j = 0; j < problem_num; ++j) {
             if (status[j][1] !== -1) {
                 first_blood[j] = Math.min(first_blood[j], status[j][1]);
             }
@@ -71,14 +71,14 @@ function parse_board(contest, currentTime = Number.MAX_VALUE) {
     }
 
     let scores = [];
-    for (let i = 0 ; i < ranklist.length ; ++ i) {
+    for (let i = 0; i < ranklist.length; ++i) {
         let team = ranklist[i];
         let status = contest.statuses[team];
 
         let solved = 0, penalty = 0, last = 0;
-        for (let j = 0 ; j < problem_num ; ++ j) {
+        for (let j = 0; j < problem_num; ++j) {
             if (status[j][1] !== -1 && status[j][1] <= currentTime) {
-                solved ++;
+                solved++;
                 penalty += status[j][1] + status[j][2] * 20;
                 last = Math.max(last, status[j][1]);
             }
@@ -86,7 +86,7 @@ function parse_board(contest, currentTime = Number.MAX_VALUE) {
         scores.push([-solved, penalty, last, i]);
     }
     scores = scores.sort((a, b) => {
-        for (let i = 0 ; i < 3 ; ++ i) {
+        for (let i = 0; i < 3; ++i) {
             if (a[i] != b[i]) {
                 return a[i] - b[i];
             }
@@ -95,7 +95,7 @@ function parse_board(contest, currentTime = Number.MAX_VALUE) {
     });
 
     let rank = 0;
-    for (let k = 0 ; k < ranklist.length ; ++ k) {
+    for (let k = 0; k < ranklist.length; ++k) {
         let i = scores[k][3];
         let team = ranklist[i];
         let status = contest.statuses[team];
@@ -104,15 +104,15 @@ function parse_board(contest, currentTime = Number.MAX_VALUE) {
             star = true;
             team = team.substring(1);
         } else {
-            rank ++;
+            rank++;
         }
         let row = `<tr><td>${star ? "*" : rank}</td><td>${team}</td>`;
 
         let solved = 0, penalty = 0;
         let wrong_tries = 0, total_tries = 0;
-        for (let j = 0 ; j < problem_num ; ++ j) {
+        for (let j = 0; j < problem_num; ++j) {
             if (status[j][1] !== -1 && status[j][1] <= currentTime) {
-                solved ++;
+                solved++;
                 penalty += status[j][1] + status[j][2] * 20;
                 total_tries += 1 + status[j][2];
                 wrong_tries += status[j][2];
@@ -120,8 +120,8 @@ function parse_board(contest, currentTime = Number.MAX_VALUE) {
         }
         row += `<td>${solved}</td>`;
         row += `<td>${penalty}</td>`;
-        for (let j = 0 ; j < problem_num ; ++ j) {
-            row += parse_detail(status[j] , first_blood[j], currentTime);
+        for (let j = 0; j < problem_num; ++j) {
+            row += parse_detail(status[j], first_blood[j], currentTime);
         }
         let dirt_rate = total_tries > 0 ? Math.round(wrong_tries * 100 / total_tries) : 0;
         row += `<td><span><b>${dirt_rate}%</b></span><br>${wrong_tries}/${total_tries}</td>`;
@@ -137,47 +137,47 @@ function drawChart(contest) {
     let pass_time = [0, contest.time || 300];
 
     chart_data.addColumn('number', 'X');
-    for (let i = 0 ; i < ranklist.length ; ++ i) {
-        chart_data.addColumn('number',  ranklist[i]);
-        chart_data.addColumn({type:'string', role:'annotation'});
-        for (let j = 0 ; j < problem_num ; ++ j) {
+    for (let i = 0; i < ranklist.length; ++i) {
+        chart_data.addColumn('number', ranklist[i]);
+        chart_data.addColumn({ type: 'string', role: 'annotation' });
+        for (let j = 0; j < problem_num; ++j) {
             let t = contest.statuses[ranklist[i]][j][1];
             if (t >= 0) {
                 pass_time.push(t);
             }
         }
     }
-    pass_time = Array.from(new Set(pass_time)).sort(function(a, b) {
+    pass_time = Array.from(new Set(pass_time)).sort(function (a, b) {
         return a - b;
     });
-    for (let k = 0 ; k < pass_time.length ; ++ k) {
+    for (let k = 0; k < pass_time.length; ++k) {
         let row = [pass_time[k]];
         let scores = [];
-        for (let i = 0 ; i < ranklist.length ; ++ i) {
+        for (let i = 0; i < ranklist.length; ++i) {
             let team = ranklist[i], solved = 0, penalty = 0;
-            for (let j = 0 ; j < problem_num ; ++ j) {
+            for (let j = 0; j < problem_num; ++j) {
                 let t = contest.statuses[team][j][1];
                 if (t >= 0 && t <= pass_time[k]) {
-                    ++ solved;
+                    ++solved;
                     penalty += contest.statuses[team][j][1] + contest.statuses[team][j][2] * 20;
                 }
             }
             scores.push([solved, penalty]);
         }
 
-        for (let i = 0 ; i < ranklist.length ; ++ i) {
+        for (let i = 0; i < ranklist.length; ++i) {
             let team = ranklist[i], rank = 1;
-            for (let j = 0 ; j < ranklist.length ; ++ j) {
+            for (let j = 0; j < ranklist.length; ++j) {
                 if (scores[j][0] > scores[i][0]) {
-                    ++ rank;
+                    ++rank;
                 } else if (scores[j][0] === scores[i][0] && scores[j][1] < scores[i][1]) {
-                    ++ rank;
+                    ++rank;
                 }
             }
             row.push(-rank);
 
             let solved = '';
-            for (let j = 0 ; j < problem_num ; ++ j) {
+            for (let j = 0; j < problem_num; ++j) {
                 let t = contest.statuses[team][j][1];
                 if (t === pass_time[k]) {
                     solved += String.fromCharCode('A'.charCodeAt(0) + j);
@@ -225,7 +225,7 @@ function getEChartOption(contest) {
         grid: {
             right: '15%',
         },
-        xAxis:  {
+        xAxis: {
             name: 'Time',
             nameLocation: 'middle',
             type: 'value',
@@ -236,12 +236,12 @@ function getEChartOption(contest) {
             axisPointer: {
                 label: {
                     precision: 0,
-                    formatter: function(m) {
+                    formatter: function (m) {
                         let time = m.value;
                         let str = formatter(Math.floor(time / 60), time % 60) + '\n';
-                        for (let i = 0 ; i < ranklist.length ; ++ i) {
+                        for (let i = 0; i < ranklist.length; ++i) {
                             let team = ranklist[i];
-                            for (let j = 0 ; j < problem_num ; ++ j) {
+                            for (let j = 0; j < problem_num; ++j) {
                                 let t = contest.statuses[team][j][1];
                                 if (t == time) {
                                     str += team + ' passed ' + String.fromCharCode('A'.charCodeAt(0) + j) + '; ';
@@ -280,22 +280,22 @@ function getEChartOption(contest) {
         bottom: 60,
         data: [],
     };
-    for (let i = 0 ; i < ranklist.length ; ++ i) {
+    for (let i = 0; i < ranklist.length; ++i) {
         option.legend.data.push(ranklist[i]);
-        for (let j = 0 ; j < problem_num ; ++ j) {
+        for (let j = 0; j < problem_num; ++j) {
             let t = contest.statuses[ranklist[i]][j][1];
             if (t >= 0) {
                 pass_time.push(t);
             }
         }
     }
-    pass_time = Array.from(new Set(pass_time)).sort(function(a, b) {
+    pass_time = Array.from(new Set(pass_time)).sort(function (a, b) {
         return a - b;
     });
 
     option.series = [];
     let points = [];
-    for (let i = 0 ; i < ranklist.length ; ++ i) {
+    for (let i = 0; i < ranklist.length; ++i) {
         let status = {};
         status.name = ranklist[i];
         status.type = 'line';
@@ -312,26 +312,26 @@ function getEChartOption(contest) {
         type: 'line',
         markArea: {
             itemStyle: {
-               color: 'rgba(237, 237, 237, 0.6)',
+                color: 'rgba(237, 237, 237, 0.6)',
             },
             data: [[{
-                    name: 'Last hour',
-                    xAxis: contest.time - 60
-                }, {
-                    xAxis: contest.time
-                }]],
+                name: 'Last hour',
+                xAxis: contest.time - 60
+            }, {
+                xAxis: contest.time
+            }]],
         }
     });
 
-    for (let k = 0 ; k < pass_time.length ; ++ k) {
+    for (let k = 0; k < pass_time.length; ++k) {
         let T = pass_time[k];
         let scores = [];
-        for (let i = 0 ; i < ranklist.length ; ++ i) {
+        for (let i = 0; i < ranklist.length; ++i) {
             let team = ranklist[i], solved = 0, penalty = 0, last = -1;
-            for (let j = 0 ; j < problem_num ; ++ j) {
+            for (let j = 0; j < problem_num; ++j) {
                 let t = contest.statuses[team][j][1];
                 if (0 <= t && t <= T) {
-                    ++ solved;
+                    ++solved;
                     last = Math.max(last, t);
                     penalty += t + contest.statuses[team][j][2] * 20;
                 }
@@ -339,19 +339,19 @@ function getEChartOption(contest) {
             scores.push([solved, penalty, last]);
         }
 
-        for (let i = 0 ; i < ranklist.length ; ++ i) {
+        for (let i = 0; i < ranklist.length; ++i) {
             let team = ranklist[i], rank = 1;
-            for (let j = 0 ; j < ranklist.length ; ++ j) {
+            for (let j = 0; j < ranklist.length; ++j) {
                 if (scores[j][0] > scores[i][0]) {
-                    ++ rank;
+                    ++rank;
                 } else if (scores[j][0] === scores[i][0] && scores[j][1] < scores[i][1]) {
-                    ++ rank;
-                } else if (scores[j][0] === scores[i][0] && scores[j][1] == scores[i][1] && scores[j][2] < scores[i][2]) { 
-                    ++ rank;
+                    ++rank;
+                } else if (scores[j][0] === scores[i][0] && scores[j][1] == scores[i][1] && scores[j][2] < scores[i][2]) {
+                    ++rank;
                 }
             }
             let pass = false;
-            for (let j = 0 ; j < problem_num ; ++ j) {
+            for (let j = 0; j < problem_num; ++j) {
                 let t = contest.statuses[team][j][1];
                 if (t === pass_time[k]) {
                     option.series[i].markPoint.data.push({
@@ -365,8 +365,8 @@ function getEChartOption(contest) {
             points[i].push([T, rank, pass]);
         }
     }
-    for (let i = 0 ; i < ranklist.length ; ++ i) {
-        for (let k = 0 ; k < points[i].length ; ++ k) {
+    for (let i = 0; i < ranklist.length; ++i) {
+        for (let k = 0; k < points[i].length; ++k) {
             if (points[i][k][0] >= 0) {
                 option.series[i].data.push({
                     symbol: 'none',
@@ -387,14 +387,14 @@ function parse(contest) {
     myChart.on('click', function (params) {
         if (params.componentType == "markPoint") {
             parse_board(contest, params.data.coord[0]);
-        } 
+        }
         if (params.componentType == "markArea") {
             parse_board(contest);
-        } 
+        }
     });
 }
 
-function selectTraining(year ,key) {
+function selectTraining(year, key) {
     let data = training[year];
     parse(data[key]);
 }
@@ -406,10 +406,10 @@ $(document).ready(function () {
         argmap[test.split('=')[0]] = test.split('=')[1];
     });
     argmap.year = argmap.year || '2019';
-    
+
     $('#contest_list').empty();
     let data = training[argmap.year];
-    
+
     contest_list = [];
     for (let p in data) {
         contest_list.push(p);
@@ -421,7 +421,7 @@ $(document).ready(function () {
         $('#contest_list').append(link);
     }
     $('[data-toggle="tooltip"]').tooltip();
-    
+
     let key = argmap.id || '01';
     parse(data[key]);
 });

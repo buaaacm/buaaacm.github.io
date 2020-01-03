@@ -52,7 +52,7 @@ function getEChartOption(year) {
         for (let training of ranklist) {
             let rank = training.indexOf(teamId + 1);
             l.push(score[rank]);
-            l = l.sort(function(a, b) {
+            l = l.sort(function (a, b) {
                 return a - b;
             });
             count++;
@@ -109,7 +109,7 @@ function getRanklistOption(year) {
             type: 'bar',
             itemStyle: {
                 normal: {
-                    color: function(params) {
+                    color: function (params) {
                         let colorList = [
                             '#c23531', '#2f4554', '#61a0a8', '#d48265',
                             '#91c7ae', '#749f83', '#ca8622', '#bda29a',
@@ -181,7 +181,7 @@ function getTrainingOption(year) {
     return option;
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     const year = '2019';
     let myChart = echarts.init(document.getElementById('chart'));
     myChart.setOption(getEChartOption(year));

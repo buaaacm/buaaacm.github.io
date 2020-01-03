@@ -4,7 +4,7 @@ $('body').scrollspy({
 });
 $("#sidebar").affix({
     offset: {
-      top: 60
+        top: 60
     }
 });
 
@@ -21,15 +21,15 @@ function awardString(x) {
 
 function renderTable(result) {
     let table = $('<table class="table table-bordered"></table>');
-    let thead = $('<thead><colgroup><col width="25%"></col><col width="20%"></col><col width="20%"></col><col width="20%"></col>' + 
-                  '<col width="15%"></col></colgroup><tr><th>队伍</th><th colspan="3">成员</th><th>奖项</th></tr></thead>');
+    let thead = $('<thead><colgroup><col width="25%"></col><col width="20%"></col><col width="20%"></col><col width="20%"></col>' +
+        '<col width="15%"></col></colgroup><tr><th>队伍</th><th colspan="3">成员</th><th>奖项</th></tr></thead>');
     table.append(thead);
     let tbody = $('<tbody></tbody>');
     for (let team of result.honor) {
         let id = team[0];
         let tr = $('<tr></tr>');
         tr.append(`<td>${teams[id].cn || teams[id].en}</td>`);
-        for (let i = 0 ; i < 3 ; ++ i) {
+        for (let i = 0; i < 3; ++i) {
             let member = teams[id].members[i];
             tr.append(`<td>${members[member].name}</td>`);
         }
@@ -37,7 +37,7 @@ function renderTable(result) {
         tbody.append(tr);
     }
     table.append(tbody);
-    return table;       
+    return table;
 }
 
 
@@ -51,7 +51,7 @@ $(document).ready(function () {
     for (let year of years) {
         const detail = honor[year];
 
-        let yearName = `${year}~${parseInt(year) + 1}`; 
+        let yearName = `${year}~${parseInt(year) + 1}`;
         let section = $(`<section id="${year}"><h2>${yearName}</h2></section>`);
         let navi = $(`<li><a href="#${year}">${yearName}</a></li>`);
         let subnavi = $('<ul class="nav nav-stacked"></ul>');
