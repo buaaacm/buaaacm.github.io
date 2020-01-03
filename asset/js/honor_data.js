@@ -148,6 +148,27 @@ const members = [
     { name: "郑耀彦", major: "" },
     { name: "肖思炀", major: "" },
     { name: "丁元杰", major: "" },
+    { name: "廖纪童", major: "" },
+    { name: "杨开元", major: "" },
+    { name: "林昱同", major: "" },
+    { name: "陈铭煊", major: "" },
+    { name: "龙鹏宇", major: "" },
+    { name: "阙子烝", major: "" },
+    { name: "孙保成", major: "" },
+    { name: "邹增禹", major: "" },
+    { name: "王廉杰", major: "" },
+    { name: "牟钰", major: "" },
+    { name: "冯玮琪", major: "" },
+    { name: "马广林", major: "" },
+    { name: "李元恺", major: "" },
+    { name: "袁熙", major: "" },
+    { name: "姜维翰", major: "" },
+    { name: "康时嘉", major: "" },
+    { name: "田柯宇", major: "" },
+    { name: "周海涛", major: "" },
+    { name: "赵婉如", major: "" },
+    { name: "黄云依", major: "" },
+    { name: "常荣熇", major: "" },
 ];
 
 const teams = [
@@ -246,6 +267,18 @@ const teams = [
     { cn: "梦中做自己", en: "ForTheDream", members: [133, 135, 145] },
     { cn: "菜里别加鎕", en: "No CE in vegetable", members: [146, 147, 148] },
     { cn: "除了AC", en: "WithoutAC", members: [134, 142, 138] },
+    { cn: "咕咕鸽", en: "Tranquility", members: [129, 130, 131] }, // 95
+    { cn: "打不赢电脑", en: "Knocked out by AI", members: [134, 144, 149] },
+    { cn: "你好，世界", en: "Hello, world", members: [137, 138, 150] },
+    { cn: "无限大の梦", en: "Butter_Fly", members: [135, 145, 151] },
+    { cn: "我裂开了", en: "We Gathered", members: [146, 147, 148] },
+    { cn: "试炼者", en: "Alchemist", members: [152, 153, 154] }, // 100
+    { cn: "试炼者", en: "tsimehclA", members: [152, 153, 154] },
+    { cn: "一号位", en: "fishing", members: [155, 156, 157] },
+    { cn: "萌新求带", en: "freshmanAirProPlus", members: [158, 159, 160] },
+    { cn: "CE：从爆零开始的ACM生活", en: "CE: ACM Life From Zero", members: [161, 162, 163] },
+    { cn: "差点一打三", en: "Actually 1V3", members: [164, 165, 166] }, // 105
+    { cn: "将来我一定比你聪明比你强", en: "Wangzai Milk", members: [167, 168, 169] },
 ];
 
 // rank =
@@ -259,6 +292,19 @@ const teams = [
 //   7: honorable award
 
 const honor = {
+    "2019": [
+        { type: 1, region: "银川赛区（宁夏理工学院）", honor: [[102, 4], [103, 4], [104, 5], [105, 5]] },
+        { type: 1, region: "南京赛区（南京航空航天大学）", honor: [[95, 4], [96, 4], [99, 6]] },
+        { type: 1, region: "徐州赛区（中国矿业大学）", honor: [[101, 4], [102, 4], [103, 5]] },
+        { type: 1, region: "南昌赛区（江西师范大学）", honor: [[97, 4], [96, 5], [98, 5]] },
+        { type: 1, region: "沈阳赛区（东北大学）", honor: [[100, 5], [99, 6]] },
+        { type: 1, region: "上海赛区（上海大学）", honor: [[95, 4], [97, 4], [98, 5]] },
+        { type: 1, region: "EC-Final（西北工业大学）", honor: [[97, 4], [95, 5], [100, 5], [102, 5], [96, 6]] },
+        { type: 2, region: "CCPC秦皇岛赛区（东北大学秦皇岛分校）", honor: [[99, 5]] },
+        { type: 2, region: "CCPC哈尔滨赛区（东北林业大学）", honor: [[97, 4], [96, 5]] },
+        { type: 2, region: "CCPC厦门赛区（厦门理工学院）", honor: [[95, 4], [98, 5], [106, 6]] },
+        { type: 2, region: "CCPC-Final（中国传媒大学）", honor: [[95, 5]] },
+    ],
     "2018": [
         { type: 0, region: "波尔图，葡萄牙", honor: [[86, -21]] },
         { type: 1, region: "南京赛区（南京航空航天大学）", honor: [[90, 4], [89, 5], [88, 5]] },
