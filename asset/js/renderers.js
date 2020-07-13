@@ -405,7 +405,7 @@ $(document).ready(function () {
     args.split('#').forEach((test) => {
         argmap[test.split('=')[0]] = test.split('=')[1];
     });
-    argmap.year = argmap.year || '2019';
+    argmap.year = argmap.year || '2020';
 
     $('#contest_list').empty();
     let data = training[argmap.year];
