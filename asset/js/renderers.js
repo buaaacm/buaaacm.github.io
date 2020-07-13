@@ -256,6 +256,7 @@ function getEChartOption(contest) {
         yAxis: {
             name: 'Rank',
             nameLocation: 'middle',
+            nameGap: 20,
             type: 'value',
             inverse: true,
             min: 0,
@@ -275,7 +276,7 @@ function getEChartOption(contest) {
 
     option.legend = {
         orient: 'vertical',
-        right: -40,
+        right: -160,
         top: 60,
         bottom: 60,
         data: [],
