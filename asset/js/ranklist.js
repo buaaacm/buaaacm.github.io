@@ -23,19 +23,21 @@ function getEChartOption(year) {
         yAxis: {
             name: 'Rank',
             nameLocation: 'middle',
+            nameGap: 25,
             type: 'value',
             inverse: true,
         },
     };
+    const nameData = teams[year].map((name) => name.slice(0, 9) + (name.length > 9 ? '...' : ''));
     option.legend = {
         orient: 'vertical',
-        right: -10,
-        top: 60,
-        bottom: 60,
-        data: teams[year],
+        right: 30,
+        top: 30,
+        bottom: 30,
+        data: nameData,
     };
     option.series = [];
-    for (let name of teams[year]) {
+    for (let name of nameData) {
         let status = {
             name: name,
             type: 'line',
@@ -151,19 +153,21 @@ function getTrainingOption(year) {
         yAxis: {
             name: 'Rank',
             nameLocation: 'middle',
+            nameGap: 25,
             type: 'value',
             inverse: true,
         },
     };
+    const nameData = teams[year].map((name) => name.slice(0, 9) + (name.length > 9 ? '...' : ''));
     option.legend = {
         orient: 'vertical',
-        right: -10,
-        top: 60,
-        bottom: 60,
-        data: teams[year],
+        right: 30,
+        top: 30,
+        bottom: 30,
+        data: nameData,
     };
     option.series = [];
-    for (let name of teams[year]) {
+    for (let name of nameData) {
         let status = {
             name: name,
             type: 'line',
@@ -182,7 +186,7 @@ function getTrainingOption(year) {
 }
 
 $(document).ready(function () {
-    const year = '2019';
+    const year = '2020';
     let myChart = echarts.init(document.getElementById('chart'));
     myChart.setOption(getEChartOption(year));
     let myRank = echarts.init(document.getElementById('rating'));
