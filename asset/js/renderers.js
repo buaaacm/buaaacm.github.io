@@ -274,12 +274,13 @@ function getEChartOption(contest) {
         pass_time.push(contest.time - 60);
     }
 
+    const nameData = ranklist.map((name) => name.slice(0, 9) + (name.length > 9 ? '...' : ''));
     option.legend = {
         orient: 'vertical',
-        right: -160,
+        right: 0,
         top: 60,
         bottom: 60,
-        data: [],
+        data: nameData,
     };
     for (let i = 0; i < ranklist.length; ++i) {
         option.legend.data.push(ranklist[i]);
@@ -298,7 +299,7 @@ function getEChartOption(contest) {
     let points = [];
     for (let i = 0; i < ranklist.length; ++i) {
         let status = {};
-        status.name = ranklist[i];
+        status.name = nameData[i];
         status.type = 'line';
         status.data = [];
         status.markPoint = {
