@@ -185,6 +185,56 @@ function getTrainingOption(year) {
     return option;
 }
 
+function getCodeforcesRatingOption(year) {
+    var teamScores = [];
+    for (var team in teams[year]) {
+        var totalCFRating = 0;
+        for (var handle in cf_handles[teams[year][team]]) {
+            totalCFRating += cf_ratings[cf_handles[teams[year][team]][handle]];
+        }
+        teamScores.push([teams[year][team], totalCFRating]);
+    }
+    const sortedTeamScores = teamScores.slice().sort(([_name1, score1], [_name2, score2]) => score2 - score1);
+    const nameData = sortedTeamScores.map(([name]) => name.slice(0, 6) + (name.length > 6 ? '...' : ''));
+    const scoreData = sortedTeamScores.map(([_, score]) => score);
+    option = {
+        tooltip: {
+            trigger: 'item',
+        },
+        toolbox: {
+            show: false,
+        },
+        yAxis: [{
+            inverse: true,
+            type: 'category',
+            data: nameData,
+        }],
+        xAxis: [{
+            type: 'value',
+        }],
+        series: [{
+            type: 'bar',
+            itemStyle: {
+                normal: {
+                    color: function (params) {
+                        let colorList = [
+                            '#c23531', '#2f4554', '#61a0a8', '#d48265',
+                            '#91c7ae', '#749f83', '#ca8622', '#bda29a',
+                            '#6e7074', '#546570', '#c4ccd3'
+                        ];
+                        return colorList[params.dataIndex % colorList.length];
+                    },
+                    label: {
+                        show: true,
+                    }
+                }
+            },
+            data: scoreData,
+        }]
+    };
+    return option;
+}
+
 $(document).ready(function () {
     const year = '2020';
     let myChart = echarts.init(document.getElementById('chart'));
@@ -193,4 +243,6 @@ $(document).ready(function () {
     myRank.setOption(getRanklistOption(year));
     let myTraining = echarts.init(document.getElementById('training'));
     myTraining.setOption(getTrainingOption(year));
+    let cfRating = echarts.init(document.getElementById('cf_rating'));
+    cfRating.setOption(getCodeforcesRatingOption(year));
 });
