@@ -204,7 +204,7 @@ function getCodeforcesRatingOption(year) {
         for (let handle of cf_handles[team]){
             totalCFRating += userRating.get(handle) || 0;
         }
-        teamScores.push([team, Math.floor(totalCFRating / 3.0)]);
+        teamScores.push([team, Math.round(totalCFRating / 3.0)]);
     }
     const sortedTeamScores = teamScores.slice().sort(([_name1, score1], [_name2, score2]) => score2 - score1);
     const nameData = sortedTeamScores.map(([name]) => name.slice(0, 6) + (name.length > 6 ? '...' : ''));
