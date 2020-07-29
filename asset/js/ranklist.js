@@ -249,12 +249,32 @@ function getCodeforcesRatingOption(year) {
 
 $(document).ready(function () {
     const year = '2020';
-    let myChart = echarts.init(document.getElementById('chart'));
-    myChart.setOption(getEChartOption(year));
-    let myRank = echarts.init(document.getElementById('rating'));
-    myRank.setOption(getRanklistOption(year));
-    let myTraining = echarts.init(document.getElementById('training'));
-    myTraining.setOption(getTrainingOption(year));
-    let cfRating = echarts.init(document.getElementById('cf_rating'));
-    cfRating.setOption(getCodeforcesRatingOption(year));
+    $('#ratings').empty()
+    let args = window.location.href.split('?')[1];
+    argmap = {};
+    args.split('#').forEach((test) => {
+        argmap[test.split('=')[0]] = test.split('=')[1];
+    });
+    argmap.type = argmap.type || 'training';
+    if (argmap.type === 'training'){
+        $('#ratings').append(`<h2>积分榜</h2>
+        <div id="rating" style="height: 480px;"></div>`);
+        $('#ratings').append(`<h2>积分排名</h2>
+        <div id="chart" style="height: 480px;"></div>`);
+        $('#ratings').append(`<h2>训练排名</h2>
+        <div id="training" style="height: 480px;"></div>`);
+
+        let myChart = echarts.init(document.getElementById('chart'));
+        myChart.setOption(getEChartOption(year));
+        let myRank = echarts.init(document.getElementById('rating'));
+        myRank.setOption(getRanklistOption(year));
+        let myTraining = echarts.init(document.getElementById('training'));
+        myTraining.setOption(getTrainingOption(year));
+    }
+    else if (argmap.type === 'codeforces'){
+        $('#ratings').append(`<h2>Codeforces Rating Ranklist</h2>
+        <div id="cf_rating" style="height: 480px;"></div>`);
+        let cfRating = echarts.init(document.getElementById('cf_rating'));
+        cfRating.setOption(getCodeforcesRatingOption(year));
+    }
 });

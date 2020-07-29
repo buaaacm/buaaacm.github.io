@@ -14,11 +14,18 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="/">Home</a></li>
         <li><a href="/honor.html">Honor</a></li>
-        <li><a href="/rating.html">Rating</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+             aria-expanded="false">Rating <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/rating.html?type=training">集训积分</a></li>
+            <li><a href="/rating.html?type=codeforces">codeforces</a></li>
+          </ul>
+        </li>
         <li><a href="http://wiki.buaaacm.com/">Wiki</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-            aria-expanded="false">Training <span class="caret"></span></a>
+             aria-expanded="false">Training <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li class="dropdown-header">Summer training</li>
             <li><a href="/training.html?year=2020">2020</a></li>
