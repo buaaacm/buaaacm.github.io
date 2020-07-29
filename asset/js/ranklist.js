@@ -186,13 +186,25 @@ function getTrainingOption(year) {
 }
 
 function getCodeforcesRatingOption(year) {
-    var teamScores = [];
-    for (var team in teams[year]) {
-        var totalCFRating = 0;
-        for (var handle in cf_handles[teams[year][team]]) {
-            totalCFRating += cf_ratings[cf_handles[teams[year][team]][handle]];
+    const handles = teams[year].map((team) => cf_handles[team].join(';')).join(';')
+    let userInfo;
+    $.ajax({
+        dataType: 'json',
+        url: 'http://codeforces.com/api/user.info?handles=' + handles,
+        type: 'GET',
+        async: false,
+        success: function(data){
+            userInfo = data['result'];
         }
-        teamScores.push([teams[year][team], totalCFRating]);
+    });
+    const userRating = new Map(userInfo.map((user) => [user['handle'], user['rating']]));
+    let teamScores = [];
+    for (let team of teams[year]){
+        let totalCFRating = 0;
+        for (let handle of cf_handles[team]){
+            totalCFRating += userRating.get(handle) || 0;
+        }
+        teamScores.push([team, totalCFRating]);
     }
     const sortedTeamScores = teamScores.slice().sort(([_name1, score1], [_name2, score2]) => score2 - score1);
     const nameData = sortedTeamScores.map(([name]) => name.slice(0, 6) + (name.length > 6 ? '...' : ''));
