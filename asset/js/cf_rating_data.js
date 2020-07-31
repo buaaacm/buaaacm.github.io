@@ -16,7 +16,7 @@ const cf_handles = {
   '我们不会起名': ['great_designer', 'kongyoubuaa', 'BH18376359'],
   '地址过低': ['dragonylee', 'cnMember', 'hujin'],
   '周末早上请不要训练': ['NoMansLand', 'fayy', 'duancheng'],
-  '普通攻击是WA而且触发TLE还能RE的弟弟你喜欢吗': ['Jerydeak', 'Dr_nobody'],
+  '普通攻击是WA而且触发TLE还能RE的弟弟你喜欢吗': ['JeryDeak', 'Dr_nobody'],
   '从前往后做': ['YUKI_LELOUCH', 'wzy2001wzy', 'FarmerThy'],
   '神奈川冲浪里': ['airbust', 'Kazamori', 'Ket98']
 };
