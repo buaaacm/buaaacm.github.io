@@ -41,5 +41,5 @@ const atcoder_handles = {
     '周末早上请不要训练': ['sharco'],
     '普通攻击是WA而且触发TLE还能RE的弟弟你喜欢吗': ['gobegobe'],
     '从前往后做': ['YUKILSY', 'wzy2001wzy'],
-    '神奈川冲浪里': ['airbust', 'kazamori', 'K98'],
+    '神奈川冲浪里': ['airbust', 'Kazamori', 'K98'],
 };
