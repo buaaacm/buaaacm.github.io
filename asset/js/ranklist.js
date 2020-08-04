@@ -247,6 +247,68 @@ function getCodeforcesRatingOption(year) {
     return option;
 }
 
+function getAtCoderRatingOption(year) {
+    const handles = teams[year].map((team) => atcoder_handles[team].join(',')).join(',')
+    let userInfo;
+    $.ajax({
+        dataType: 'json',
+        url: 'http://api.buaaacm.com:8008/atcoder/userinfo?handles=' + handles,
+        type: 'GET',
+        async: false,
+        success: function(data){
+            userInfo = data['result'];
+        }
+    });
+    const userRating = new Map(userInfo.map((user) => [user['username'], user['rating']]));
+    let teamScores = [];
+    for (let team of teams[year]){
+        let totalAtCoderRating = 0;
+        for (let handle of atcoder_handles[team]){
+            totalAtCoderRating += userRating.get(handle) || 0;
+        }
+        teamScores.push([team, Math.round(totalAtCoderRating / 3.0)]);
+    }
+    const sortedTeamScores = teamScores.slice().sort(([_name1, score1], [_name2, score2]) => score2 - score1);
+    const nameData = sortedTeamScores.map(([name]) => name.slice(0, 6) + (name.length > 6 ? '...' : ''));
+    const scoreData = sortedTeamScores.map(([_, score]) => score);
+    option = {
+        tooltip: {
+            trigger: 'item',
+        },
+        toolbox: {
+            show: false,
+        },
+        yAxis: [{
+            inverse: true,
+            type: 'category',
+            data: nameData,
+        }],
+        xAxis: [{
+            type: 'value',
+        }],
+        series: [{
+            type: 'bar',
+            itemStyle: {
+                normal: {
+                    color: function (params) {
+                        let colorList = [
+                            '#c23531', '#2f4554', '#61a0a8', '#d48265',
+                            '#91c7ae', '#749f83', '#ca8622', '#bda29a',
+                            '#6e7074', '#546570', '#c4ccd3'
+                        ];
+                        return colorList[params.dataIndex % colorList.length];
+                    },
+                    label: {
+                        show: true,
+                    }
+                }
+            },
+            data: scoreData,
+        }]
+    };
+    return option;
+}
+
 $(document).ready(function () {
     const year = '2020';
     $('#ratings').empty()
@@ -276,5 +338,11 @@ $(document).ready(function () {
         <div id="cf_rating" style="height: 480px;"></div>`);
         let cfRating = echarts.init(document.getElementById('cf_rating'));
         cfRating.setOption(getCodeforcesRatingOption(year));
+    }
+    else if (argmap.type === 'atcoder'){
+        $('#ratings').append(`<h2>AtCoder Rating Ranklist</h2>
+        <div id="atcoder_rating" style="height: 480px;"></div>`);
+        let atcoderRating = echarts.init(document.getElementById('atcoder_rating'));
+        atcoderRating.setOption(getAtCoderRatingOption(year));
     }
 });
