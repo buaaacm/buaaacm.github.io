@@ -22,7 +22,7 @@ const cf_handles = {
 };
 
 const atcoder_handles = {
-    '苍响': ['zhongzihao', 'chielo', 'prime21'],
+    '苍响': ['zhongzihao', 'chielo', 'Prime21'],
     '试炼者': ['maxdumbledore', 'Hardict', 'Atlantis592'],
     '我不知道.png': ['PotassiumWings', 'qxforever', 'nikkukun'],
     '仰望星空': ['ws_zzyer', 'x342333349', 'shyakocat'],
