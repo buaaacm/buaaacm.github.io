@@ -252,11 +252,12 @@ function getAtCoderRatingOption(year) {
     let userInfo;
     $.ajax({
         dataType: 'json',
-        url: 'http://api.buaaacm.com:8008/atcoder/userinfo?handles=' + handles,
+        url: 'http://api.buaaacm.com:8008/atcoder/user/',
         type: 'GET',
         async: false,
         success: function(data){
-            userInfo = data['result'];
+            console.log(data)
+            userInfo = data;
         }
     });
     const userRating = new Map(userInfo.map((user) => [user['username'], user['rating']]));
