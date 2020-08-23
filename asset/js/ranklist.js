@@ -1,6 +1,6 @@
 let scores = [];
 
-function getEChartOption(year) {
+function getLineEChart(year){
     let option = {
         toolbox: {
             show: true,
@@ -28,6 +28,50 @@ function getEChartOption(year) {
             inverse: true,
         },
     };
+    return option;
+}
+
+function getBarEChart(nameData, scoreData){
+    let option = {
+        tooltip: {
+            trigger: 'item',
+        },
+        toolbox: {
+            show: false,
+        },
+        yAxis: [{
+            inverse: true,
+            type: 'category',
+            data: nameData,
+        }],
+        xAxis: [{
+            type: 'value',
+        }],
+        series: [{
+            type: 'bar',
+            itemStyle: {
+                normal: {
+                    color: function (params) {
+                        let colorList = [
+                            '#c23531', '#2f4554', '#61a0a8', '#d48265',
+                            '#91c7ae', '#749f83', '#ca8622', '#bda29a',
+                            '#6e7074', '#546570', '#c4ccd3'
+                        ];
+                        return colorList[params.dataIndex % colorList.length];
+                    },
+                    label: {
+                        show: true,
+                    }
+                }
+            },
+            data: scoreData,
+        }]
+    };
+    return option;
+}
+
+function getEChartOption(year) {
+    let option = getLineEChart(year);
     const nameData = teams[year].map((name) => name.slice(0, 9) + (name.length > 9 ? '...' : ''));
     option.legend = {
         orient: 'vertical',
@@ -92,72 +136,11 @@ function getRanklistOption(year) {
     const sortedTeamScores = teamScores.slice().sort(([_name1, score1], [_name2, score2]) => score2 - score1);
     const nameData = sortedTeamScores.map(([name]) => name.slice(0, 6) + (name.length > 6 ? '...' : ''));
     const scoreData = sortedTeamScores.map(([_, score]) => score);
-    option = {
-        tooltip: {
-            trigger: 'item',
-        },
-        toolbox: {
-            show: false,
-        },
-        yAxis: [{
-            inverse: true,
-            type: 'category',
-            data: nameData,
-        }],
-        xAxis: [{
-            type: 'value',
-        }],
-        series: [{
-            type: 'bar',
-            itemStyle: {
-                normal: {
-                    color: function (params) {
-                        let colorList = [
-                            '#c23531', '#2f4554', '#61a0a8', '#d48265',
-                            '#91c7ae', '#749f83', '#ca8622', '#bda29a',
-                            '#6e7074', '#546570', '#c4ccd3'
-                        ];
-                        return colorList[params.dataIndex % colorList.length];
-                    },
-                    label: {
-                        show: true,
-                    }
-                }
-            },
-            data: scoreData,
-        }]
-    };
-    return option;
+    return getBarEChart(nameData, scoreData);
 }
 
 function getTrainingOption(year) {
-    let option = {
-        toolbox: {
-            show: true,
-            feature: {
-                dataZoom: {
-                    yAxisIndex: 'none'
-                },
-                restore: {},
-            }
-        },
-        tooltip: {
-            trigger: 'axis'
-        },
-        grid: {
-            right: '15%',
-        },
-        xAxis: {
-            data: trainingRanklist[year].map(x => x[0]),
-        },
-        yAxis: {
-            name: 'Rank',
-            nameLocation: 'middle',
-            nameGap: 25,
-            type: 'value',
-            inverse: true,
-        },
-    };
+    let option = getLineEChart(year)
     const nameData = teams[year].map((name) => name.slice(0, 9) + (name.length > 9 ? '...' : ''));
     option.legend = {
         orient: 'vertical',
@@ -209,42 +192,7 @@ function getCodeforcesRatingOption(year) {
     const sortedTeamScores = teamScores.slice().sort(([_name1, score1], [_name2, score2]) => score2 - score1);
     const nameData = sortedTeamScores.map(([name]) => name.slice(0, 6) + (name.length > 6 ? '...' : ''));
     const scoreData = sortedTeamScores.map(([_, score]) => score);
-    option = {
-        tooltip: {
-            trigger: 'item',
-        },
-        toolbox: {
-            show: false,
-        },
-        yAxis: [{
-            inverse: true,
-            type: 'category',
-            data: nameData,
-        }],
-        xAxis: [{
-            type: 'value',
-        }],
-        series: [{
-            type: 'bar',
-            itemStyle: {
-                normal: {
-                    color: function (params) {
-                        let colorList = [
-                            '#c23531', '#2f4554', '#61a0a8', '#d48265',
-                            '#91c7ae', '#749f83', '#ca8622', '#bda29a',
-                            '#6e7074', '#546570', '#c4ccd3'
-                        ];
-                        return colorList[params.dataIndex % colorList.length];
-                    },
-                    label: {
-                        show: true,
-                    }
-                }
-            },
-            data: scoreData,
-        }]
-    };
-    return option;
+    return getBarEChart(nameData, scoreData);
 }
 
 function getAtCoderRatingOption(year) {
@@ -272,42 +220,7 @@ function getAtCoderRatingOption(year) {
     const sortedTeamScores = teamScores.slice().sort(([_name1, score1], [_name2, score2]) => score2 - score1);
     const nameData = sortedTeamScores.map(([name]) => name.slice(0, 6) + (name.length > 6 ? '...' : ''));
     const scoreData = sortedTeamScores.map(([_, score]) => score);
-    option = {
-        tooltip: {
-            trigger: 'item',
-        },
-        toolbox: {
-            show: false,
-        },
-        yAxis: [{
-            inverse: true,
-            type: 'category',
-            data: nameData,
-        }],
-        xAxis: [{
-            type: 'value',
-        }],
-        series: [{
-            type: 'bar',
-            itemStyle: {
-                normal: {
-                    color: function (params) {
-                        let colorList = [
-                            '#c23531', '#2f4554', '#61a0a8', '#d48265',
-                            '#91c7ae', '#749f83', '#ca8622', '#bda29a',
-                            '#6e7074', '#546570', '#c4ccd3'
-                        ];
-                        return colorList[params.dataIndex % colorList.length];
-                    },
-                    label: {
-                        show: true,
-                    }
-                }
-            },
-            data: scoreData,
-        }]
-    };
-    return option;
+    return getBarEChart(nameData, scoreData);
 }
 
 $(document).ready(function () {
@@ -318,7 +231,7 @@ $(document).ready(function () {
     args.split('#').forEach((test) => {
         argmap[test.split('=')[0]] = test.split('=')[1];
     });
-    argmap.type = argmap.type || 'training';
+    argmap.type = argmap.type || 'atcoder';
     if (argmap.type === 'training'){
         $('#ratings').append(`<h2>积分榜</h2>
         <div id="rating" style="height: 480px;"></div>`);
