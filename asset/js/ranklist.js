@@ -195,6 +195,51 @@ function getCodeforcesRatingOption(year) {
     return getBarEChart(nameData, scoreData);
 }
 
+function getCodeforcesProblemOption(year) {
+    let teamScores;
+    $.ajax({
+        dataType: 'json',
+        url: 'http://api.buaaacm.com:8008/statistic/problem/',
+        data: {
+            'team': teams[year],
+            'begin_time': '2020-07-10T00:00:00+08:00',
+            'end_time': '2020-09-04T00:00:00+08:00',
+        },
+        type: 'GET',
+        async: false,
+        success: function(data){
+            teamScores = data;
+        }
+    });
+    const sortedTeamScores = Object.entries(teamScores).sort(([_name1, score1], [_name2, score2]) => score2 - score1);
+    const nameData = sortedTeamScores.map(([name]) => name.slice(0, 6) + (name.length > 6 ? '...' : ''));
+    const scoreData = sortedTeamScores.map(([_, score]) => score);
+    return getBarEChart(nameData, scoreData);
+}
+
+function getCodeforcesProblemRatingOption(year) {
+    let teamScores;
+    $.ajax({
+        dataType: 'json',
+        url: 'http://api.buaaacm.com:8008/statistic/problem/',
+        data: {
+            'team': teams[year],
+            'begin_time': '2020-07-10T00:00:00+08:00',
+            'end_time': '2020-09-04T00:00:00+08:00',
+            'count_rating': true,
+        },
+        type: 'GET',
+        async: false,
+        success: function(data){
+            teamScores = data;
+        }
+    });
+    const sortedTeamScores = Object.entries(teamScores).sort(([_name1, score1], [_name2, score2]) => score2 - score1);
+    const nameData = sortedTeamScores.map(([name]) => name.slice(0, 6) + (name.length > 6 ? '...' : ''));
+    const scoreData = sortedTeamScores.map(([_, score]) => score);
+    return getBarEChart(nameData, scoreData);
+}
+
 function getAtCoderRatingOption(year) {
     const handles = teams[year].map((team) => atcoder_handles[team].join(',')).join(',')
     let userInfo;
@@ -231,7 +276,7 @@ $(document).ready(function () {
     args.split('#').forEach((test) => {
         argmap[test.split('=')[0]] = test.split('=')[1];
     });
-    argmap.type = argmap.type || 'atcoder';
+    argmap.type = argmap.type || 'codeforces';
     if (argmap.type === 'training'){
         $('#ratings').append(`<h2>积分榜</h2>
         <div id="rating" style="height: 480px;"></div>`);
@@ -252,6 +297,16 @@ $(document).ready(function () {
         <div id="cf_rating" style="height: 480px;"></div>`);
         let cfRating = echarts.init(document.getElementById('cf_rating'));
         cfRating.setOption(getCodeforcesRatingOption(year));
+
+        $('#ratings').append(`<h2>Codeforces Solved Problem Ranklist (Weighted by problem rating)</h2>
+        <div id="cf_problem_rating" style="height: 480px;"></div>`);
+        let cfProblemRatingCount = echarts.init(document.getElementById('cf_problem_rating'));
+        cfProblemRatingCount.setOption(getCodeforcesProblemRatingOption(year));
+
+        $('#ratings').append(`<h2>Codeforces Solved Problem Ranklist</h2>
+        <div id="cf_problem" style="height: 480px;"></div>`);
+        let cfProblemCount = echarts.init(document.getElementById('cf_problem'));
+        cfProblemCount.setOption(getCodeforcesProblemOption(year));
     }
     else if (argmap.type === 'atcoder'){
         $('#ratings').append(`<h2>AtCoder Rating Ranklist</h2>
