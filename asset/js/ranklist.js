@@ -70,6 +70,13 @@ function getBarEChart(nameData, scoreData){
     return option;
 }
 
+function getSortedScoreAndPrettifiedName(teamScores, maxLength){
+    const sortedTeamScores = teamScores.slice().sort(([_name1, score1], [_name2, score2]) => score2 - score1);
+    const nameData = sortedTeamScores.map(([name]) => name.slice(0, maxLength) + (name.length > maxLength ? '...' : ''));
+    const scoreData = sortedTeamScores.map(([_, score]) => score);
+    return [nameData, scoreData];
+}
+
 function getEChartOption(year) {
     let option = getLineEChart(year);
     const nameData = teams[year].map((name) => name.slice(0, 9) + (name.length > 9 ? '...' : ''));
@@ -133,9 +140,7 @@ function getRanklistOption(year) {
     const teamScores = teams[year].reduce((list, teamName, index) => {
         return [...list, [teamName, scores[index]]]
     }, []);
-    const sortedTeamScores = teamScores.slice().sort(([_name1, score1], [_name2, score2]) => score2 - score1);
-    const nameData = sortedTeamScores.map(([name]) => name.slice(0, 6) + (name.length > 6 ? '...' : ''));
-    const scoreData = sortedTeamScores.map(([_, score]) => score);
+    [nameData, scoreData] = getSortedScoreAndPrettifiedName(teamScores, 6);
     return getBarEChart(nameData, scoreData);
 }
 
@@ -189,9 +194,7 @@ function getCodeforcesRatingOption(year) {
         }
         teamScores.push([team, Math.round(totalCFRating / 3.0)]);
     }
-    const sortedTeamScores = teamScores.slice().sort(([_name1, score1], [_name2, score2]) => score2 - score1);
-    const nameData = sortedTeamScores.map(([name]) => name.slice(0, 6) + (name.length > 6 ? '...' : ''));
-    const scoreData = sortedTeamScores.map(([_, score]) => score);
+    [nameData, scoreData] = getSortedScoreAndPrettifiedName(teamScores, 6);
     return getBarEChart(nameData, scoreData);
 }
 
@@ -211,9 +214,7 @@ function getCodeforcesProblemOption(year) {
             teamScores = data;
         }
     });
-    const sortedTeamScores = Object.entries(teamScores).sort(([_name1, score1], [_name2, score2]) => score2 - score1);
-    const nameData = sortedTeamScores.map(([name]) => name.slice(0, 6) + (name.length > 6 ? '...' : ''));
-    const scoreData = sortedTeamScores.map(([_, score]) => score);
+    [nameData, scoreData] = getSortedScoreAndPrettifiedName(Object.entries(teamScores), 6);
     return getBarEChart(nameData, scoreData);
 }
 
@@ -234,9 +235,7 @@ function getCodeforcesProblemRatingOption(year) {
             teamScores = data;
         }
     });
-    const sortedTeamScores = Object.entries(teamScores).sort(([_name1, score1], [_name2, score2]) => score2 - score1);
-    const nameData = sortedTeamScores.map(([name]) => name.slice(0, 6) + (name.length > 6 ? '...' : ''));
-    const scoreData = sortedTeamScores.map(([_, score]) => score);
+    [nameData, scoreData] = getSortedScoreAndPrettifiedName(Object.entries(teamScores), 6);
     return getBarEChart(nameData, scoreData);
 }
 
@@ -262,9 +261,7 @@ function getAtCoderRatingOption(year) {
         }
         teamScores.push([team, Math.round(totalAtCoderRating / 3.0)]);
     }
-    const sortedTeamScores = teamScores.slice().sort(([_name1, score1], [_name2, score2]) => score2 - score1);
-    const nameData = sortedTeamScores.map(([name]) => name.slice(0, 6) + (name.length > 6 ? '...' : ''));
-    const scoreData = sortedTeamScores.map(([_, score]) => score);
+    [nameData, scoreData] = getSortedScoreAndPrettifiedName(teamScores, 6);
     return getBarEChart(nameData, scoreData);
 }
 
@@ -276,7 +273,7 @@ $(document).ready(function () {
     args.split('#').forEach((test) => {
         argmap[test.split('=')[0]] = test.split('=')[1];
     });
-    argmap.type = argmap.type || 'codeforces';
+    argmap.type = argmap.type || 'training';
     if (argmap.type === 'training'){
         $('#ratings').append(`<h2>积分榜</h2>
         <div id="rating" style="height: 480px;"></div>`);
