@@ -202,7 +202,7 @@ function getCodeforcesProblemOption(year) {
     let teamScores;
     $.ajax({
         dataType: 'json',
-        url: 'http://api.buaaacm.com:8008/statistic/problem/',
+        url: 'http://api.buaaacm.com:8008/statistic/codeforces/problem/',
         data: {
             'team': teams[year],
             'begin_time': '2020-07-10T00:00:00+08:00',
@@ -222,7 +222,7 @@ function getCodeforcesProblemRatingOption(year) {
     let teamScores;
     $.ajax({
         dataType: 'json',
-        url: 'http://api.buaaacm.com:8008/statistic/problem/',
+        url: 'http://api.buaaacm.com:8008/statistic/codeforces/problem/',
         data: {
             'team': teams[year],
             'begin_time': '2020-07-10T00:00:00+08:00',
