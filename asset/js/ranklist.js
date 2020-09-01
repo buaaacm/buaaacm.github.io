@@ -174,27 +174,22 @@ function getTrainingOption(year) {
 }
 
 function getCodeforcesRatingOption(year) {
-    const handles = teams[year].map((team) => cf_handles[team].join(';')).join(';')
-    let userInfo;
+    let teamScores;
     $.ajax({
         dataType: 'json',
-        url: 'http://codeforces.com/api/user.info?handles=' + handles,
+        url: 'http://api.buaaacm.com:8008/statistic/codeforces/rating/',
+        data: {
+            'team': teams[year],
+            'begin_time': '2020-07-10T00:00:00+08:00',
+            'end_time': '2020-09-04T00:00:00+08:00',
+        },
         type: 'GET',
         async: false,
         success: function(data){
-            userInfo = data['result'];
+            teamScores = data;
         }
     });
-    const userRating = new Map(userInfo.map((user) => [user['handle'], user['rating']]));
-    let teamScores = [];
-    for (let team of teams[year]){
-        let totalCFRating = 0;
-        for (let handle of cf_handles[team]){
-            totalCFRating += userRating.get(handle) || 0;
-        }
-        teamScores.push([team, Math.round(totalCFRating / 3.0)]);
-    }
-    [nameData, scoreData] = getSortedScoreAndPrettifiedName(teamScores, 6);
+    [nameData, scoreData] = getSortedScoreAndPrettifiedName(Object.entries(teamScores), 6);
     return getBarEChart(nameData, scoreData);
 }
 
@@ -273,7 +268,7 @@ $(document).ready(function () {
     args.split('#').forEach((test) => {
         argmap[test.split('=')[0]] = test.split('=')[1];
     });
-    argmap.type = argmap.type || 'training';
+    argmap.type = argmap.type || 'codeforces';
     if (argmap.type === 'training'){
         $('#ratings').append(`<h2>积分榜</h2>
         <div id="rating" style="height: 480px;"></div>`);
