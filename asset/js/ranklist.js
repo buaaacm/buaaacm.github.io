@@ -235,28 +235,63 @@ function getCodeforcesProblemRatingOption(year) {
 }
 
 function getAtCoderRatingOption(year) {
-    const handles = teams[year].map((team) => atcoder_handles[team].join(',')).join(',')
-    let userInfo;
+    let teamScores;
     $.ajax({
         dataType: 'json',
-        url: 'http://api.buaaacm.com:8008/atcoder/user/',
+        url: 'http://api.buaaacm.com:8008/statistic/atcoder/rating/',
+        data: {
+            'team': teams[year],
+            'begin_time': '2020-07-10T00:00:00+08:00',
+            'end_time': '2020-09-04T00:00:00+08:00',
+        },
         type: 'GET',
         async: false,
         success: function(data){
-            console.log(data)
-            userInfo = data;
+            teamScores = data;
         }
     });
-    const userRating = new Map(userInfo.map((user) => [user['username'], user['rating']]));
-    let teamScores = [];
-    for (let team of teams[year]){
-        let totalAtCoderRating = 0;
-        for (let handle of atcoder_handles[team]){
-            totalAtCoderRating += userRating.get(handle) || 0;
+    [nameData, scoreData] = getSortedScoreAndPrettifiedName(Object.entries(teamScores), 6);
+    return getBarEChart(nameData, scoreData);
+}
+
+function getAtCoderProblemOption(year) {
+    let teamScores;
+    $.ajax({
+        dataType: 'json',
+        url: 'http://api.buaaacm.com:8008/statistic/atcoder/problem/',
+        data: {
+            'team': teams[year],
+            'begin_time': '2020-07-10T00:00:00+08:00',
+            'end_time': '2020-09-04T00:00:00+08:00',
+        },
+        type: 'GET',
+        async: false,
+        success: function(data){
+            teamScores = data;
         }
-        teamScores.push([team, Math.round(totalAtCoderRating / 3.0)]);
-    }
-    [nameData, scoreData] = getSortedScoreAndPrettifiedName(teamScores, 6);
+    });
+    [nameData, scoreData] = getSortedScoreAndPrettifiedName(Object.entries(teamScores), 6);
+    return getBarEChart(nameData, scoreData);
+}
+
+function getAtCoderProblemRatingOption(year) {
+    let teamScores;
+    $.ajax({
+        dataType: 'json',
+        url: 'http://api.buaaacm.com:8008/statistic/atcoder/problem/',
+        data: {
+            'team': teams[year],
+            'begin_time': '2020-07-10T00:00:00+08:00',
+            'end_time': '2020-09-04T00:00:00+08:00',
+            'count_points': true,
+        },
+        type: 'GET',
+        async: false,
+        success: function(data){
+            teamScores = data;
+        }
+    });
+    [nameData, scoreData] = getSortedScoreAndPrettifiedName(Object.entries(teamScores), 6);
     return getBarEChart(nameData, scoreData);
 }
 
@@ -268,7 +303,7 @@ $(document).ready(function () {
     args.split('#').forEach((test) => {
         argmap[test.split('=')[0]] = test.split('=')[1];
     });
-    argmap.type = argmap.type || 'codeforces';
+    argmap.type = argmap.type || 'training';
     if (argmap.type === 'training'){
         $('#ratings').append(`<h2>积分榜</h2>
         <div id="rating" style="height: 480px;"></div>`);
@@ -305,5 +340,15 @@ $(document).ready(function () {
         <div id="atcoder_rating" style="height: 480px;"></div>`);
         let atcoderRating = echarts.init(document.getElementById('atcoder_rating'));
         atcoderRating.setOption(getAtCoderRatingOption(year));
+
+        $('#ratings').append(`<h2>AtCoder Solved Problem Ranklist (Weighted by problem rating)</h2>
+        <div id="atcoder_problem_rating" style="height: 480px;"></div>`);
+        let atcoderProblemRatingCount = echarts.init(document.getElementById('atcoder_problem_rating'));
+        atcoderProblemRatingCount.setOption(getAtCoderProblemRatingOption(year));
+
+        $('#ratings').append(`<h2>AtCoder Solved Problem Ranklist</h2>
+        <div id="atcoder_problem" style="height: 480px;"></div>`);
+        let atcoderProblemCount = echarts.init(document.getElementById('atcoder_problem'));
+        atcoderProblemCount.setOption(getAtCoderProblemOption(year));
     }
 });
