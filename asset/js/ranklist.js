@@ -173,6 +173,24 @@ function getTrainingOption(year) {
     return option;
 }
 
+function getTotalRating(year) {
+    let teamScores;
+    $.ajax({
+        dataType: 'json',
+        url: 'http://api.buaaacm.com:8008/statistic/rating/',
+        data: {
+            'team': teams[year],
+        },
+        type: 'GET',
+        async: false,
+        success: function(data){
+            teamScores = data;
+        }
+    });
+    [nameData, scoreData] = getSortedScoreAndPrettifiedName(Object.entries(teamScores), 6);
+    return getBarEChart(nameData, scoreData);
+}
+
 function getCodeforcesRatingOption(year) {
     let teamScores;
     $.ajax({
@@ -295,6 +313,44 @@ function getAtCoderProblemRatingOption(year) {
     return getBarEChart(nameData, scoreData);
 }
 
+function getTopCoderRatingOption(year) {
+    let teamScores;
+    $.ajax({
+        dataType: 'json',
+        url: 'http://api.buaaacm.com:8008/statistic/topcoder/rating/',
+        data: {
+            'team': teams[year],
+            'begin_time': '2020-07-10T00:00:00+08:00',
+            'end_time': '2020-09-04T00:00:00+08:00',
+        },
+        type: 'GET',
+        async: false,
+        success: function(data){
+            teamScores = data;
+        }
+    });
+    [nameData, scoreData] = getSortedScoreAndPrettifiedName(Object.entries(teamScores), 6);
+    return getBarEChart(nameData, scoreData);
+}
+
+function getTopCoderProblemRatingOption(year) {
+    let teamScores;
+    $.ajax({
+        dataType: 'json',
+        url: 'http://api.buaaacm.com:8008/statistic/topcoder/problem/',
+        data: {
+            'team': teams[year],
+        },
+        type: 'GET',
+        async: false,
+        success: function(data){
+            teamScores = data;
+        }
+    });
+    [nameData, scoreData] = getSortedScoreAndPrettifiedName(Object.entries(teamScores), 6);
+    return getBarEChart(nameData, scoreData);
+}
+
 $(document).ready(function () {
     const year = '2020';
     $('#ratings').empty()
@@ -303,8 +359,14 @@ $(document).ready(function () {
     args.split('#').forEach((test) => {
         argmap[test.split('=')[0]] = test.split('=')[1];
     });
-    argmap.type = argmap.type || 'training';
-    if (argmap.type === 'training'){
+    argmap.type = argmap.type || 'total';
+    if (argmap.type === 'total'){
+        $('#ratings').append(`<h2>总积分榜</h2>
+        <div id="total_rating" style="height: 480px;"></div>`);
+        let totalRating = echarts.init(document.getElementById('total_rating'));
+        totalRating.setOption(getTotalRating(year));
+    }
+    else if (argmap.type === 'training'){
         $('#ratings').append(`<h2>积分榜</h2>
         <div id="rating" style="height: 480px;"></div>`);
         $('#ratings').append(`<h2>积分排名</h2>
@@ -350,5 +412,16 @@ $(document).ready(function () {
         <div id="atcoder_problem" style="height: 480px;"></div>`);
         let atcoderProblemCount = echarts.init(document.getElementById('atcoder_problem'));
         atcoderProblemCount.setOption(getAtCoderProblemOption(year));
+    }
+    else if (argmap.type === 'topcoder'){
+        $('#ratings').append(`<h2>TopCoder Rating Ranklist</h2>
+        <div id="topcoder_rating" style="height: 480px;"></div>`);
+        let topcoderRating = echarts.init(document.getElementById('topcoder_rating'));
+        topcoderRating.setOption(getTopCoderRatingOption(year));
+
+        $('#ratings').append(`<h2>TopCoder Solved Problem Ranklist (Weighted by problem rating)</h2>
+        <div id="topcoder_problem_rating" style="height: 480px;"></div>`);
+        let topcoderProblemRatingCount = echarts.init(document.getElementById('topcoder_problem_rating'));
+        topcoderProblemRatingCount.setOption(getTopCoderProblemRatingOption(year));
     }
 });
