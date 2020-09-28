@@ -380,7 +380,11 @@ function getEChartOption(contest) {
     return option;
 }
 
-function parse(contest) {
+// Don't you think it is ugly?
+let data;
+
+function parse(index) {
+    let contest = data[index]
     parse_board(contest);
     //google.charts.setOnLoadCallback(drawChart.bind(this, contest));
     let myChart = echarts.init(document.getElementById('chart'));
@@ -396,11 +400,6 @@ function parse(contest) {
     });
 }
 
-function selectTraining(year, key) {
-    let data = training[year];
-    parse(data[key]);
-}
-
 $(document).ready(function () {
     let args = window.location.href.split('?')[1];
     argmap = {};
@@ -410,21 +409,28 @@ $(document).ready(function () {
     argmap.year = argmap.year || '2020';
 
     $('#contest_list').empty();
-    let data = training[argmap.year];
+    $.ajax({
+        dataType: 'json',
+        url: 'http://api.buaaacm.com:8008/training/contest/get_contest/',
+        data: {
+            'year': argmap.year,
+        },
+        type: 'GET',
+        async: false,
+        success: function(result){
+            data = result.map(item => JSON.parse(item.board));
+        },
+    });
 
-    contest_list = [];
-    for (let p in data) {
-        contest_list.push(p);
-    }
-    for (let p of contest_list.sort()) {
+    data.forEach((item, index) => {
         let link = `<a class="list-group-item" data-toggle="tooltip" data-placement="right" title=
-                    "${data[p].title}" onclick="selectTraining(\'${argmap.year}\', '${p}')" 
-                    href=#id=${p}>${data[p].date.substring(5)}</a>`;
+                    "${item.title}" onclick="parse(${index})" 
+                    href=#id=${index}>${item.date.substring(5)}</a>`;
         $('#contest_list').append(link);
-    }
+    })
     $('[data-toggle="tooltip"]').tooltip();
 
-    let key = argmap.id || '01';
-    parse(data[key]);
+    let key = Number(argmap.id || '0');
+    parse(key);
 });
 
