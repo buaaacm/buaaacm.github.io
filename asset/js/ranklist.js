@@ -137,9 +137,7 @@ function getEChartOption(year) {
 }
 
 function getRanklistOption(year) {
-    const teamScores = teams[year].reduce((list, teamName, index) => {
-        return [...list, [teamName, scores[index]]]
-    }, []);
+    const teamScores = teams[year].map((teamName, index) => [teamName, scores[index]]);
     [nameData, scoreData] = getSortedScoreAndPrettifiedName(teamScores, 6);
     return getBarEChart(nameData, scoreData);
 }
