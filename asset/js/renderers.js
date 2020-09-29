@@ -384,7 +384,7 @@ function getEChartOption(contest) {
 let data;
 
 function parse(index) {
-    let contest = data[index]
+    let contest = data[index];
     parse_board(contest);
     //google.charts.setOnLoadCallback(drawChart.bind(this, contest));
     let myChart = echarts.init(document.getElementById('chart'));
