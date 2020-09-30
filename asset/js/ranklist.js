@@ -1,6 +1,4 @@
-let scores = [];
-
-function getLineEChart(year){
+function getLineEChart(dates, teams){
     let option = {
         toolbox: {
             show: true,
@@ -18,7 +16,7 @@ function getLineEChart(year){
             right: '15%',
         },
         xAxis: {
-            data: trainingRanklist[year].map(x => x[0]),
+            data: dates,
         },
         yAxis: {
             name: 'Rank',
@@ -28,6 +26,23 @@ function getLineEChart(year){
             inverse: true,
         },
     };
+    const nameData = teams.map((name) => name.slice(0, 9) + (name.length > 9 ? '...' : ''));
+    option.legend = {
+        orient: 'vertical',
+        right: 30,
+        top: 30,
+        bottom: 30,
+        data: nameData,
+    };
+    option.series = [];
+    for (let name of nameData) {
+        let status = {
+            name: name,
+            type: 'line',
+            data: [],
+        };
+        option.series.push(status);
+    }
     return option;
 }
 
@@ -77,39 +92,57 @@ function getSortedScoreAndPrettifiedName(teamScores, maxLength){
     return [nameData, scoreData];
 }
 
-function getEChartOption(year) {
-    let option = getLineEChart(year);
-    const nameData = teams[year].map((name) => name.slice(0, 9) + (name.length > 9 ? '...' : ''));
-    option.legend = {
-        orient: 'vertical',
-        right: 30,
-        top: 30,
-        bottom: 30,
-        data: nameData,
-    };
-    option.series = [];
-    for (let name of nameData) {
-        let status = {
-            name: name,
-            type: 'line',
-            data: [],
-        };
-        option.series.push(status);
+function fetchBoard(url, param){
+    let data;
+    $.ajax({
+        dataType: 'json',
+        url: url,
+        data: param,
+        type: 'GET',
+        async: false,
+        success: function(result){
+            data = result.map(item => JSON.parse(item.board));
+        },
+    });
+    return data;
+}
+
+function parseTraining(url, param, teams, forbid){
+    let boards = fetchBoard(url, param);
+    console.log(boards);
+    dates = boards.map(board => board.date.substring(5));
+    ranklists = boards.map(board => board.ranklist);
+
+    let rankOption = getLineEChart(dates, teams)
+    for (let teamId = 0; teamId < teams.length; ++teamId) {
+        for (let training of ranklists) {
+            let rank = training.indexOf(teams[teamId]);
+            rank = rank === -1 ? teams.length : rank + 1;
+            rankOption.series[teamId].data.push(rank);
+        }
     }
-    let ranklist = trainingRanklist[year];
-    let points = [];
-    scores = [];
-    for (let teamId = 0; teamId < teams[year].length; ++teamId) {
+
+    let scoreRankOption = getLineEChart(dates, teams);
+    let points = [], scores = [];
+    for (let teamId = 0; teamId < teams.length; ++teamId) {
         let l = [], point = [];
         let count = 0, last = 0;
-        for (let training of ranklist) {
-            let rank = training.indexOf(teamId + 1);
+        for (let training of ranklists) {
+            let rank = training.indexOf(teams[teamId]);
+            rank = rank === -1 ? teams.length : rank + 1;
             l.push(score[rank]);
             l = l.sort(function (a, b) {
                 return a - b;
             });
             count++;
-            let less = Math.min(Math.floor(count / 4), 3);
+            let less;
+            if (forbid === 0){
+                less = 0;
+            }
+            else{
+                let block = ranklists.length / forbid;
+                less = Math.min(Math.floor(count / block), forbid);
+            }
             let sum = 0;
             for (let i = less; i < l.length; ++i) {
                 sum += l[i];
@@ -121,54 +154,23 @@ function getEChartOption(year) {
         points.push(point);
     }
 
-    for (let i = 0; i < ranklist.length; ++i) {
-        for (let j = 0; j < teams[year].length; ++j) {
+    for (let i = 0; i < ranklists.length; ++i) {
+        for (let j = 0; j < teams.length; ++j) {
             let rank = 1;
-            for (let k = 0; k < teams[year].length; ++k) {
+            for (let k = 0; k < teams.length; ++k) {
                 if (points[k][i] > points[j][i]) {
                     ++rank;
                 }
             }
-            option.series[j].data.push(rank);
+            scoreRankOption.series[j].data.push(rank);
         }
-
     }
-    return option;
-}
 
-function getRanklistOption(year) {
-    const teamScores = teams[year].map((teamName, index) => [teamName, scores[index]]);
+    const teamScores = teams.map((teamName, index) => [teamName, scores[index]]);
     [nameData, scoreData] = getSortedScoreAndPrettifiedName(teamScores, 6);
-    return getBarEChart(nameData, scoreData);
-}
+    let scoreOption = getBarEChart(nameData, scoreData);
 
-function getTrainingOption(year) {
-    let option = getLineEChart(year)
-    const nameData = teams[year].map((name) => name.slice(0, 9) + (name.length > 9 ? '...' : ''));
-    option.legend = {
-        orient: 'vertical',
-        right: 30,
-        top: 30,
-        bottom: 30,
-        data: nameData,
-    };
-    option.series = [];
-    for (let name of nameData) {
-        let status = {
-            name: name,
-            type: 'line',
-            data: [],
-        };
-        option.series.push(status);
-    }
-    let ranklist = trainingRanklist[year];
-    for (let teamId = 0; teamId < teams[year].length; ++teamId) {
-        for (let training of ranklist) {
-            let rank = training.indexOf(teamId + 1);
-            option.series[teamId].data.push(rank);
-        }
-    }
-    return option;
+    return [rankOption, scoreRankOption, scoreOption];
 }
 
 function getTotalRating(year) {
@@ -357,7 +359,21 @@ $(document).ready(function () {
     args.split('#').forEach((test) => {
         argmap[test.split('=')[0]] = test.split('=')[1];
     });
-    argmap.type = argmap.type || 'total';
+    argmap.type = argmap.type || 'training';
+
+    let teams;
+    $.ajax({
+        dataType: 'json',
+        url: 'http://api.buaaacm.com:8008/team/',
+        data: {
+            'year': year,
+        },
+        type: 'GET',
+        async: false,
+        success: function(data){
+            teams = data.map(team => team.name);
+        }
+    });
     if (argmap.type === 'total'){
         $('#ratings').append(`<h2>总积分榜</h2>
         <div id="total_rating" style="height: 480px;"></div>`);
@@ -372,12 +388,15 @@ $(document).ready(function () {
         $('#ratings').append(`<h2>训练排名</h2>
         <div id="training" style="height: 480px;"></div>`);
 
-        let myChart = echarts.init(document.getElementById('chart'));
-        myChart.setOption(getEChartOption(year));
+        let [rankOption, scoreRankOption, scoreOption] = parseTraining(
+            'http://api.buaaacm.com:8008/training/contest/get_contest/',
+            {'year': year, 'type': 'online'}, teams, 3);
         let myRank = echarts.init(document.getElementById('rating'));
-        myRank.setOption(getRanklistOption(year));
+        myRank.setOption(scoreOption);
+        let myChart = echarts.init(document.getElementById('chart'));
+        myChart.setOption(scoreRankOption);
         let myTraining = echarts.init(document.getElementById('training'));
-        myTraining.setOption(getTrainingOption(year));
+        myTraining.setOption(rankOption);
     }
     else if (argmap.type === 'codeforces'){
         $('#ratings').append(`<h2>Codeforces Rating Ranklist</h2>
