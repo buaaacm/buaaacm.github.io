@@ -1,3 +1,5 @@
+const score = [100000, 100, 75, 60, 45, 35, 25, 20, 15, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0, 0, 0, 0];
+
 function getLineEChart(dates, teams){
     let option = {
         toolbox: {
@@ -109,7 +111,6 @@ function fetchBoard(url, param){
 
 function parseTraining(url, param, teams, forbid){
     let boards = fetchBoard(url, param);
-    console.log(boards);
     dates = boards.map(board => board.date.substring(5));
     ranklists = boards.map(board => board.ranklist);
 
@@ -359,7 +360,7 @@ $(document).ready(function () {
     args.split('#').forEach((test) => {
         argmap[test.split('=')[0]] = test.split('=')[1];
     });
-    argmap.type = argmap.type || 'training';
+    argmap.type = argmap.type || 'total';
 
     let teams;
     $.ajax({
@@ -380,7 +381,25 @@ $(document).ready(function () {
         let totalRating = echarts.init(document.getElementById('total_rating'));
         totalRating.setOption(getTotalRating(year));
     }
-    else if (argmap.type === 'training'){
+    else if (argmap.type === 'onsite'){
+        $('#ratings').append(`<h2>积分榜</h2>
+        <div id="rating" style="height: 480px;"></div>`);
+        $('#ratings').append(`<h2>积分排名</h2>
+        <div id="chart" style="height: 480px;"></div>`);
+        $('#ratings').append(`<h2>训练排名</h2>
+        <div id="training" style="height: 480px;"></div>`);
+
+        let [rankOption, scoreRankOption, scoreOption] = parseTraining(
+            'http://api.buaaacm.com:8008/training/contest/get_contest/',
+            {'year': year, 'type': 'onsite'}, teams, 0);
+        let myRank = echarts.init(document.getElementById('rating'));
+        myRank.setOption(scoreOption);
+        let myChart = echarts.init(document.getElementById('chart'));
+        myChart.setOption(scoreRankOption);
+        let myTraining = echarts.init(document.getElementById('training'));
+        myTraining.setOption(rankOption);
+    }
+    else if (argmap.type === 'online'){
         $('#ratings').append(`<h2>积分榜</h2>
         <div id="rating" style="height: 480px;"></div>`);
         $('#ratings').append(`<h2>积分排名</h2>
