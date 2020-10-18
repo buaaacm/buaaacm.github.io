@@ -174,13 +174,13 @@ function parseTraining(url, param, teams, forbid){
     return [rankOption, scoreRankOption, scoreOption];
 }
 
-function getTotalRating(year) {
+function getTotalRating(year, teams) {
     let teamScores;
     $.ajax({
         dataType: 'json',
         url: 'http://api.buaaacm.com:8008/statistic/rating/',
         data: {
-            'team': teams[year],
+            'team': teams,
         },
         type: 'GET',
         async: false,
@@ -192,13 +192,13 @@ function getTotalRating(year) {
     return getBarEChart(nameData, scoreData);
 }
 
-function getCodeforcesRatingOption(year) {
+function getCodeforcesRatingOption(year, teams) {
     let teamScores;
     $.ajax({
         dataType: 'json',
         url: 'http://api.buaaacm.com:8008/statistic/codeforces/rating/',
         data: {
-            'team': teams[year],
+            'team': teams,
             'begin_time': '2020-07-10T00:00:00+08:00',
             'end_time': '2020-09-04T00:00:00+08:00',
         },
@@ -212,13 +212,13 @@ function getCodeforcesRatingOption(year) {
     return getBarEChart(nameData, scoreData);
 }
 
-function getCodeforcesProblemOption(year) {
+function getCodeforcesProblemOption(year, teams) {
     let teamScores;
     $.ajax({
         dataType: 'json',
         url: 'http://api.buaaacm.com:8008/statistic/codeforces/problem/',
         data: {
-            'team': teams[year],
+            'team': teams,
             'begin_time': '2020-07-10T00:00:00+08:00',
             'end_time': '2020-09-04T00:00:00+08:00',
         },
@@ -232,13 +232,13 @@ function getCodeforcesProblemOption(year) {
     return getBarEChart(nameData, scoreData);
 }
 
-function getCodeforcesProblemRatingOption(year) {
+function getCodeforcesProblemRatingOption(year, teams) {
     let teamScores;
     $.ajax({
         dataType: 'json',
         url: 'http://api.buaaacm.com:8008/statistic/codeforces/problem/',
         data: {
-            'team': teams[year],
+            'team': teams,
             'begin_time': '2020-07-10T00:00:00+08:00',
             'end_time': '2020-09-04T00:00:00+08:00',
             'count_rating': true,
@@ -253,13 +253,13 @@ function getCodeforcesProblemRatingOption(year) {
     return getBarEChart(nameData, scoreData);
 }
 
-function getAtCoderRatingOption(year) {
+function getAtCoderRatingOption(year, teams) {
     let teamScores;
     $.ajax({
         dataType: 'json',
         url: 'http://api.buaaacm.com:8008/statistic/atcoder/rating/',
         data: {
-            'team': teams[year],
+            'team': teams,
             'begin_time': '2020-07-10T00:00:00+08:00',
             'end_time': '2020-09-04T00:00:00+08:00',
         },
@@ -273,13 +273,13 @@ function getAtCoderRatingOption(year) {
     return getBarEChart(nameData, scoreData);
 }
 
-function getAtCoderProblemOption(year) {
+function getAtCoderProblemOption(year, teams) {
     let teamScores;
     $.ajax({
         dataType: 'json',
         url: 'http://api.buaaacm.com:8008/statistic/atcoder/problem/',
         data: {
-            'team': teams[year],
+            'team': teams,
             'begin_time': '2020-07-10T00:00:00+08:00',
             'end_time': '2020-09-04T00:00:00+08:00',
         },
@@ -293,13 +293,13 @@ function getAtCoderProblemOption(year) {
     return getBarEChart(nameData, scoreData);
 }
 
-function getAtCoderProblemRatingOption(year) {
+function getAtCoderProblemRatingOption(year, teams) {
     let teamScores;
     $.ajax({
         dataType: 'json',
         url: 'http://api.buaaacm.com:8008/statistic/atcoder/problem/',
         data: {
-            'team': teams[year],
+            'team': teams,
             'begin_time': '2020-07-10T00:00:00+08:00',
             'end_time': '2020-09-04T00:00:00+08:00',
             'count_points': true,
@@ -314,13 +314,13 @@ function getAtCoderProblemRatingOption(year) {
     return getBarEChart(nameData, scoreData);
 }
 
-function getTopCoderRatingOption(year) {
+function getTopCoderRatingOption(year, teams) {
     let teamScores;
     $.ajax({
         dataType: 'json',
         url: 'http://api.buaaacm.com:8008/statistic/topcoder/rating/',
         data: {
-            'team': teams[year],
+            'team': teams,
             'begin_time': '2020-07-10T00:00:00+08:00',
             'end_time': '2020-09-04T00:00:00+08:00',
         },
@@ -334,13 +334,13 @@ function getTopCoderRatingOption(year) {
     return getBarEChart(nameData, scoreData);
 }
 
-function getTopCoderProblemRatingOption(year) {
+function getTopCoderProblemRatingOption(year, teams) {
     let teamScores;
     $.ajax({
         dataType: 'json',
         url: 'http://api.buaaacm.com:8008/statistic/topcoder/problem/',
         data: {
-            'team': teams[year],
+            'team': teams,
         },
         type: 'GET',
         async: false,
@@ -379,7 +379,7 @@ $(document).ready(function () {
         $('#ratings').append(`<h2>总积分榜</h2>
         <div id="total_rating" style="height: 480px;"></div>`);
         let totalRating = echarts.init(document.getElementById('total_rating'));
-        totalRating.setOption(getTotalRating(year));
+        totalRating.setOption(getTotalRating(year, teams));
     }
     else if (argmap.type === 'onsite'){
         $('#ratings').append(`<h2>积分榜</h2>
@@ -421,43 +421,43 @@ $(document).ready(function () {
         $('#ratings').append(`<h2>Codeforces Rating Ranklist</h2>
         <div id="cf_rating" style="height: 480px;"></div>`);
         let cfRating = echarts.init(document.getElementById('cf_rating'));
-        cfRating.setOption(getCodeforcesRatingOption(year));
+        cfRating.setOption(getCodeforcesRatingOption(year, teams));
 
         $('#ratings').append(`<h2>Codeforces Solved Problem Ranklist (Weighted by problem rating)</h2>
         <div id="cf_problem_rating" style="height: 480px;"></div>`);
         let cfProblemRatingCount = echarts.init(document.getElementById('cf_problem_rating'));
-        cfProblemRatingCount.setOption(getCodeforcesProblemRatingOption(year));
+        cfProblemRatingCount.setOption(getCodeforcesProblemRatingOption(year, teams));
 
         $('#ratings').append(`<h2>Codeforces Solved Problem Ranklist</h2>
         <div id="cf_problem" style="height: 480px;"></div>`);
         let cfProblemCount = echarts.init(document.getElementById('cf_problem'));
-        cfProblemCount.setOption(getCodeforcesProblemOption(year));
+        cfProblemCount.setOption(getCodeforcesProblemOption(year, teams));
     }
     else if (argmap.type === 'atcoder'){
         $('#ratings').append(`<h2>AtCoder Rating Ranklist</h2>
         <div id="atcoder_rating" style="height: 480px;"></div>`);
         let atcoderRating = echarts.init(document.getElementById('atcoder_rating'));
-        atcoderRating.setOption(getAtCoderRatingOption(year));
+        atcoderRating.setOption(getAtCoderRatingOption(year, teams));
 
         $('#ratings').append(`<h2>AtCoder Solved Problem Ranklist (Weighted by problem rating)</h2>
         <div id="atcoder_problem_rating" style="height: 480px;"></div>`);
         let atcoderProblemRatingCount = echarts.init(document.getElementById('atcoder_problem_rating'));
-        atcoderProblemRatingCount.setOption(getAtCoderProblemRatingOption(year));
+        atcoderProblemRatingCount.setOption(getAtCoderProblemRatingOption(year, teams));
 
         $('#ratings').append(`<h2>AtCoder Solved Problem Ranklist</h2>
         <div id="atcoder_problem" style="height: 480px;"></div>`);
         let atcoderProblemCount = echarts.init(document.getElementById('atcoder_problem'));
-        atcoderProblemCount.setOption(getAtCoderProblemOption(year));
+        atcoderProblemCount.setOption(getAtCoderProblemOption(year, teams));
     }
     else if (argmap.type === 'topcoder'){
         $('#ratings').append(`<h2>TopCoder Rating Ranklist</h2>
         <div id="topcoder_rating" style="height: 480px;"></div>`);
         let topcoderRating = echarts.init(document.getElementById('topcoder_rating'));
-        topcoderRating.setOption(getTopCoderRatingOption(year));
+        topcoderRating.setOption(getTopCoderRatingOption(year, teams));
 
         $('#ratings').append(`<h2>TopCoder Solved Problem Ranklist (Weighted by problem rating)</h2>
         <div id="topcoder_problem_rating" style="height: 480px;"></div>`);
         let topcoderProblemRatingCount = echarts.init(document.getElementById('topcoder_problem_rating'));
-        topcoderProblemRatingCount.setOption(getTopCoderProblemRatingOption(year));
+        topcoderProblemRatingCount.setOption(getTopCoderProblemRatingOption(year, teams));
     }
 });
