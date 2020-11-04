@@ -178,7 +178,7 @@ function getTotalRating(year, teams) {
     let teamScores;
     $.ajax({
         dataType: 'json',
-        url: 'http://api.buaaacm.com:8008/statistic/rating/',
+        url: 'https://api.buaaacm.com/statistic/rating/',
         data: {
             'team': teams,
         },
@@ -196,7 +196,7 @@ function getCodeforcesRatingOption(year, teams) {
     let teamScores;
     $.ajax({
         dataType: 'json',
-        url: 'http://api.buaaacm.com:8008/statistic/codeforces/rating/',
+        url: 'https://api.buaaacm.com/statistic/codeforces/rating/',
         data: {
             'team': teams,
             'begin_time': '2020-07-10T00:00:00+08:00',
@@ -216,7 +216,7 @@ function getCodeforcesProblemOption(year, teams) {
     let teamScores;
     $.ajax({
         dataType: 'json',
-        url: 'http://api.buaaacm.com:8008/statistic/codeforces/problem/',
+        url: 'https://api.buaaacm.com/statistic/codeforces/problem/',
         data: {
             'team': teams,
             'begin_time': '2020-07-10T00:00:00+08:00',
@@ -236,7 +236,7 @@ function getCodeforcesProblemRatingOption(year, teams) {
     let teamScores;
     $.ajax({
         dataType: 'json',
-        url: 'http://api.buaaacm.com:8008/statistic/codeforces/problem/',
+        url: 'https://api.buaaacm.com/statistic/codeforces/problem/',
         data: {
             'team': teams,
             'begin_time': '2020-07-10T00:00:00+08:00',
@@ -257,7 +257,7 @@ function getAtCoderRatingOption(year, teams) {
     let teamScores;
     $.ajax({
         dataType: 'json',
-        url: 'http://api.buaaacm.com:8008/statistic/atcoder/rating/',
+        url: 'https://api.buaaacm.com/statistic/atcoder/rating/',
         data: {
             'team': teams,
             'begin_time': '2020-07-10T00:00:00+08:00',
@@ -277,7 +277,7 @@ function getAtCoderProblemOption(year, teams) {
     let teamScores;
     $.ajax({
         dataType: 'json',
-        url: 'http://api.buaaacm.com:8008/statistic/atcoder/problem/',
+        url: 'https://api.buaaacm.com/statistic/atcoder/problem/',
         data: {
             'team': teams,
             'begin_time': '2020-07-10T00:00:00+08:00',
@@ -297,7 +297,7 @@ function getAtCoderProblemRatingOption(year, teams) {
     let teamScores;
     $.ajax({
         dataType: 'json',
-        url: 'http://api.buaaacm.com:8008/statistic/atcoder/problem/',
+        url: 'https://api.buaaacm.com/statistic/atcoder/problem/',
         data: {
             'team': teams,
             'begin_time': '2020-07-10T00:00:00+08:00',
@@ -318,7 +318,7 @@ function getTopCoderRatingOption(year, teams) {
     let teamScores;
     $.ajax({
         dataType: 'json',
-        url: 'http://api.buaaacm.com:8008/statistic/topcoder/rating/',
+        url: 'https://api.buaaacm.com/statistic/topcoder/rating/',
         data: {
             'team': teams,
             'begin_time': '2020-07-10T00:00:00+08:00',
@@ -338,7 +338,7 @@ function getTopCoderProblemRatingOption(year, teams) {
     let teamScores;
     $.ajax({
         dataType: 'json',
-        url: 'http://api.buaaacm.com:8008/statistic/topcoder/problem/',
+        url: 'https://api.buaaacm.com/statistic/topcoder/problem/',
         data: {
             'team': teams,
         },
@@ -365,7 +365,7 @@ $(document).ready(function () {
     let teams;
     $.ajax({
         dataType: 'json',
-        url: 'http://api.buaaacm.com:8008/team/',
+        url: 'https://api.buaaacm.com/team/',
         data: {
             'year': year,
         },
@@ -390,7 +390,7 @@ $(document).ready(function () {
         <div id="training" style="height: 480px;"></div>`);
 
         let [rankOption, scoreRankOption, scoreOption] = parseTraining(
-            'http://api.buaaacm.com:8008/training/contest/get_contest/',
+            'https://api.buaaacm.com/training/contest/get_contest/',
             {'year': year, 'type': 'onsite'}, teams, 0);
         let myRank = echarts.init(document.getElementById('rating'));
         myRank.setOption(scoreOption);
@@ -408,7 +408,7 @@ $(document).ready(function () {
         <div id="training" style="height: 480px;"></div>`);
 
         let [rankOption, scoreRankOption, scoreOption] = parseTraining(
-            'http://api.buaaacm.com:8008/training/contest/get_contest/',
+            'https://api.buaaacm.com/training/contest/get_contest/',
             {'year': year, 'type': 'online'}, teams, 3);
         let myRank = echarts.init(document.getElementById('rating'));
         myRank.setOption(scoreOption);
