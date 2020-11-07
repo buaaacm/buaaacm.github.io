@@ -411,7 +411,7 @@ $(document).ready(function () {
     $('#contest_list').empty();
     $.ajax({
         dataType: 'json',
-        url: 'https://api.buaaacm.com:8008/training/contest/get_contest/',
+        url: 'https://api.buaaacm.com/training/contest/get_contest/',
         data: {
             'year': argmap.year,
         },
