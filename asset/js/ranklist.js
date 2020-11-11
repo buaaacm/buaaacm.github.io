@@ -365,7 +365,7 @@ $(document).ready(function () {
     let teams;
     $.ajax({
         dataType: 'json',
-        url: 'https://api.buaaacm.com/team/',
+        url: 'https://api.buaaacm.com/team/get_team/',
         data: {
             'year': year,
         },
