@@ -181,6 +181,7 @@ function getTotalRating(year, teams) {
         url: 'https://api.buaaacm.com/statistic/rating/',
         data: {
             'team': teams,
+            'year': year,
         },
         type: 'GET',
         async: false,
