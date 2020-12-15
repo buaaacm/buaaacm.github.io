@@ -1,10 +1,19 @@
 function getEChartOption() {
+    let honor;
+    $.ajax({
+        dataType: 'json',
+        url: 'https://api.buaaacm.com/honor/',
+        data: { },
+        type: 'GET',
+        async: false,
+        success: function(data){
+            honor = data;
+        }
+    });
 
-    let years = [], year = 2005;
-    while (honor[year.toString()]) {
-        years.push(year.toString());
-        year++;
-    }
+    let years = Object.keys(honor);
+    years = years.map((year) => +year).sort()
+
     let option = {
         toolbox: {
             show: false,
@@ -53,13 +62,12 @@ function getEChartOption() {
     });
     for (let year of years) {
         let g = 0, s = 0, b = 0;
-        for (let contest of honor[year]) {
-            for (let team of contest.honor) {
-                if (team[1] > 0) {
-                    g += (team[1] <= 4);
-                    s += (team[1] == 5);
-                    b += (team[1] == 6);
-                }
+        for (let contest of honor[String(year)]) {
+            for (let team of contest.honors) {
+                award = team.award;
+                g += (award.indexOf('金奖') >= 0);
+                s += (award === '银奖');
+                b += (award === '铜奖');
             }
         }
         option.series[0].data.push(g);
