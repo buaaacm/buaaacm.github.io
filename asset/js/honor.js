@@ -56,7 +56,9 @@ $(document).ready(function () {
         if (detail.some((contest) => contest.info.type === 'World-Finals')) {
             let WF = $(`<div id="${year + "_WF"}"><h3>ICPC World Finals</h3></div>`);
             let result = detail.find((contest) => contest.info.type === 'World-Finals');
-            WF.append(`<h4>${result.info.region}</h4>`)
+            let date = result.info.date;
+            date = date ? date.replace(/-/g, '.') : '';
+            WF.append(`<h4 title="${date}">${result.info.region}</h4>`);
             WF.append(renderTable(result.honors));
             section.append(WF);
             subnavi.append($(`<li><a href="#${year + "_WF"}">ICPC World Finals</a></li>`));
@@ -65,7 +67,9 @@ $(document).ready(function () {
             let icpc = $(`<div id="${year + "_icpc"}"><h3>ICPC Regional</h3></div>`);
             let results = detail.filter((contest) => contest.info.type === 'ICPC');
             for (let result of results) {
-                let contest = $(`<div><h4>${result.info.region}</h4></div>`);
+                let date = result.info.date;
+                date = date ? date.replace(/-/g, '.') : '';
+                let contest = $(`<div><h4 title="${date}">${result.info.region}</h4></div>`);
                 contest.append(renderTable(result.honors));
                 icpc.append(contest);
             }
@@ -76,7 +80,9 @@ $(document).ready(function () {
             let ccpc = $(`<div id="${year + "_ccpc"}"><h3>CCPC</h3></div>`);
             let results = detail.filter((contest) => contest.info.type == 'CCPC');
             for (let result of results) {
-                let contest = $(`<div><h4>${result.info.region}</h4></div>`);
+                let date = result.info.date;
+                date = date ? date.replace(/-/g, '.') : '';
+                let contest = $(`<div><h4 title="${date}">${result.info.region}</h4></div>`);
                 contest.append(renderTable(result.honors));
                 ccpc.append(contest);
             }
