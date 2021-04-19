@@ -41,8 +41,15 @@
       </ul>
     </div>
     <script>
-      let paths = window.location.pathname.split('/');
-      let path = paths[paths.length - 1].split('.')[0];
+      let paths = window.location.pathname;
+      let path;
+      if (paths === '/'){
+          path = 'home';
+      }
+      else{
+        paths = paths.split('/');
+        path = paths[paths.length - 1].split('.')[0];
+      }
       document.getElementById(`navbar_${path}`).classList.add('active');
     </script>
     <!--/.nav-collapse -->
