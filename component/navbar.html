@@ -12,9 +12,9 @@
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/">Home</a></li>
-        <li><a href="/honor.html">Honor</a></li>
-        <li class="dropdown">
+        <li id="navbar_home"><a href="/">Home</a></li>
+        <li><a href="/honor.html" id="navbar_honor">Honor</a></li>
+        <li class="dropdown" id="navbar_rating">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
              aria-expanded="false">Rating <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -27,7 +27,7 @@
           </ul>
         </li>
         <li><a href="http://wiki.buaaacm.com/">Wiki</a></li>
-        <li class="dropdown">
+        <li class="dropdown" id="navbar_training">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
              aria-expanded="false">Training <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -40,6 +40,10 @@
         </li>
       </ul>
     </div>
+    <script>
+      let path = window.location.pathname.split('/')[2].split('.')[0];
+      document.getElementById(`navbar_${path}`).classList.add('active');
+    </script>
     <!--/.nav-collapse -->
   </div>
 </nav>
