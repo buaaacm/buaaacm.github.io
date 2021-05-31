@@ -95,6 +95,8 @@ function parse_board(contest, currentTime = Number.MAX_VALUE) {
     });
 
     let rank = 0;
+    let background = 0, prev_solved = -1;
+    let row_count = 0;
     for (let k = 0; k < ranklist.length; ++k) {
         let i = scores[k][3];
         let team = ranklist[i];
@@ -106,7 +108,6 @@ function parse_board(contest, currentTime = Number.MAX_VALUE) {
         } else {
             rank++;
         }
-        let row = `<tr><td>${star ? "*" : rank}</td><td>${team}</td>`;
 
         let solved = 0, penalty = 0;
         let wrong_tries = 0, total_tries = 0;
@@ -118,6 +119,22 @@ function parse_board(contest, currentTime = Number.MAX_VALUE) {
                 wrong_tries += status[j][2];
             }
         }
+
+        if (solved !== prev_solved){
+            background ^= 1;
+            row_count = 0;
+        }
+        prev_solved = solved;
+        ++ row_count;
+        let background_color;
+        if (row_count % 2 === 1){
+            background_color = background ? "#f8f8f8" : "#e8e8ff"
+        }
+        else{
+            background_color = background ? "#ffffff" : "#f0f0ff"
+        }
+
+        let row = `<tr style="background-color: ${background_color};"><td>${star ? "*" : rank}</td><td>${team}</td>`;
         row += `<td>${solved}</td>`;
         row += `<td>${penalty}</td>`;
         for (let j = 0; j < problem_num; ++j) {

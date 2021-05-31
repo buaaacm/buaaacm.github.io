@@ -16,9 +16,9 @@ table caption {
     padding: 4px 6px;
 }
 
-table tr:nth-of-type(even) {
+/*table tr:nth-of-type(even) {
     background-color: #f8f8f8;
-}
+}*/
 
 table th {
     /*background-color: #eee;*/
