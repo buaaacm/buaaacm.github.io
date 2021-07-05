@@ -1,16 +1,4 @@
-function getEChartOption() {
-    let count;
-    $.ajax({
-        dataType: 'json',
-        url: 'https://api.buaaacm.com/honor/count/',
-        data: { },
-        type: 'GET',
-        async: false,
-        success: function(data){
-            count = data;
-        }
-    });
-
+function getEChartOption(count) {
     let years = Object.keys(count);
     years = years.map((year) => +year).sort()
 
@@ -64,7 +52,48 @@ function getEChartOption() {
     return option;
 }
 
+function renderTable(result) {
+    let table = $('<table class="table table-bordered"></table>');
+    let thead = $('<thead><colgroup><col width="12%"></col><col width="29%"></col><col width="15%"></col>' +
+        '<col width="10%"></col><col width="10%"></col><col width="10%"></col><col width="14%"></col></colgroup>' +
+        '<tr><th>日期</th><th>赛区</th><th>队伍</th><th colspan="3">成员</th><th>奖项</th></tr></thead>');
+    table.append(thead);
+    let tbody = $('<tbody></tbody>');
+    for (let honor of result) {
+        let tr = $('<tr></tr>');
+        tr.append(`<td>${honor.date.replace(/-/g, '.')}</td>`);
+        tr.append(`<td>${honor.contest}</td>`);
+        tr.append(`<td>${honor.name || honor.english_name}</td>`);
+        for (let i = 1; i <= 3; ++i) {
+            name = honor[`member${i}`]
+            tr.append(`<td>${name}</td>`);
+        }
+        tr.append(`<th>${honor.award}（金奖）</th>`);
+        tbody.append(tr);
+    }
+    table.append(tbody);
+    $('#trophy').append(table);
+}
+
 $(document).ready(function () {
     let myChart = echarts.init(document.getElementById('chart'));
-    myChart.setOption(getEChartOption());
+    $.ajax({
+        dataType: 'json',
+        url: 'https://api.buaaacm.com/honor/count/',
+        data: { },
+        type: 'GET',
+        success: function(data){
+            myChart.setOption(getEChartOption(data));
+        }
+    });
+
+    $.ajax({
+        dataType: 'json',
+        url: 'https://api.buaaacm.com/honor/trophy/',
+        data: { },
+        type: 'GET',
+        success: function(data){
+            renderTable(data);
+        }
+    });
 });
