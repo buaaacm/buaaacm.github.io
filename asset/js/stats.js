@@ -1,17 +1,17 @@
 function getEChartOption() {
-    let honor;
+    let count;
     $.ajax({
         dataType: 'json',
-        url: 'https://api.buaaacm.com/honor/',
+        url: 'https://api.buaaacm.com/honor/count/',
         data: { },
         type: 'GET',
         async: false,
         success: function(data){
-            honor = data;
+            count = data;
         }
     });
 
-    let years = Object.keys(honor);
+    let years = Object.keys(count);
     years = years.map((year) => +year).sort()
 
     let option = {
@@ -37,42 +37,29 @@ function getEChartOption() {
             type: 'value',
         },
     };
+    let color_map = new Map([
+        ['金奖', '#ffd965'],
+        ['银奖', '#d0cece'],
+        ['铜奖', '#f4b083']
+    ]);
+    let awards = [...color_map.keys()];
     option.legend = {
-        data: ['金奖', '银奖', '铜奖'],
+        data: awards,
     };
 
     option.series = [];
-    option.series.push({
-        name: '金奖',
-        type: 'line',
-        data: [],
-        color: '#ffd965',
-    });
-    option.series.push({
-        name: '银奖',
-        type: 'line',
-        data: [],
-        color: '#d0cece',
-    });
-    option.series.push({
-        name: '铜奖',
-        type: 'line',
-        data: [],
-        color: '#f4b083',
-    });
+    for (let award of awards){
+        option.series.push({
+            name: award,
+            type: 'line',
+            data: [],
+            color: color_map.get(award),
+        });
+    }
     for (let year of years) {
-        let g = 0, s = 0, b = 0;
-        for (let contest of honor[String(year)]) {
-            for (let team of contest.honors) {
-                award = team.award;
-                g += (award.indexOf('金奖') >= 0);
-                s += (award === '银奖');
-                b += (award === '铜奖');
-            }
+        for (let i = 0; i < awards.length; ++ i){
+            option.series[i].data.push(count[year][awards[i]] || 0);
         }
-        option.series[0].data.push(g);
-        option.series[1].data.push(s);
-        option.series[2].data.push(b);
     }
     return option;
 }
